@@ -54,6 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
         }
 
+        .label {
+            text-align: left;
+        }
+
         .login-container img {
             width: 50px;
             height: 50px;
@@ -97,9 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .footer {
             margin-top: 10px;
             font-size: 1.2rem;
-            font-weight: bold;
             color: #333;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Verdana;
         }
     </style>
 </head>
@@ -107,26 +110,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="login-container">
         <div class="logo-form">
-            <img src="../img/logoGili.png" alt="Gili Labak Logo">
+        <img src="../img/logoGili.png" alt="Gili Labak Logo">
         </div>
-        <h1>Login</h1>
+        <h1>Daftar Akun</h1>
         <hr>
         <?php if (isset($error)): ?>
             <p style="color: red;"><?= $error ?></p>
         <?php endif; ?>
         <form action="index.php" method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" placeholder="Username" required>
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="label">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Username" required>
+                <br><br>
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="Password" required>
+                <br><br>
+                <label for="telp">Nomor Telpohne</label>
+                <input type="number" name="telp" id="telp" placeholder="Nomor Telephone">
+                <br><br>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Email">
+            </div>
             <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                 <a href="register.php"><button type="button" class="btn btn-register">Daftar Akun</button></a>
                 <button type="submit" class="btn btn-login">Masuk</button>
             </div>
         </form>
-        <br>
-        <hr>
-        <div class="footer">Pulau Gili Labak</div>
     </div>
 </body>
 
