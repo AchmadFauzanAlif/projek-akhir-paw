@@ -91,7 +91,7 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket.php">Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>

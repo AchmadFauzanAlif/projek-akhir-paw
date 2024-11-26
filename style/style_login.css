@@ -4,58 +4,10 @@ body {
     box-sizing: border-box;
 }
 
-.navbar {
-    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-    color: white;
-}
-
-/* Navbar Links Centered */
-.navbar-nav {
-    display: flex;
-    justify-content: center; /* Pusatkan elemen dalam ul */
-    align-items: center; /* Rata tengah vertikal */
-    margin: 0 auto; /* Pusatkan navbar-nav dalam navbar */
-}
-
-/* Warna default tautan navbar */
-.navbar-nav .nav-link {
-    color: white; /* Warna awal */
-    font-size: 1rem;
-    margin: 0 15px; /* Spasi antar item */
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s; /* Transisi animasi halus */
-}
-
-/* Warna biru saat tautan di-hover */
-.navbar-nav .nav-link:hover {
-    background-color: #1e90ff; /* Biru terang saat hover */
-    color: white; /* Tetap putih agar kontras */
-    border-radius: 5px; /* Efek sudut membulat */
-    padding: 5px 10px; /* Tambahkan padding ekstra */
-}
-
-/* Tautan aktif */
-.navbar-nav .nav-link.active {
-    color: #1e90ff; /* Warna biru terang untuk tautan aktif */
-    font-weight: bold; /* Teks tebal */
-}
-
-/* Styling logo */
-.logo img {
-    height: 40px; /* Sesuaikan tinggi logo */
-    width: auto; /* Jaga proporsi gambar */
-    margin-right: 10px; /* Jarak antara logo dan teks */
-    margin-left: 100px;
-}
-
-.navbar .logo {
-    display: flex;
-    align-items: center; /* Logo di tengah vertikal */
-}
-
 .login-content {
     font-family: 'Arial', sans-serif;
-    background-image: url('../img/backgroundGili.png'); /* Ganti dengan path gambar Anda */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), #00000080), 
+    url('../img/backgroundGili.png') no-repeat center center;/* Ganti dengan path gambar Anda */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -71,7 +23,7 @@ body {
 }
 
 .card {
-    background-color: rgba(105, 236, 225, 0.9);
+    background: linear-gradient(to right, rgb(168, 168, 168), rgb(251, 251, 251));
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -92,6 +44,8 @@ body {
     display: block;
 }
 
+
+
 .card input[type="text"], 
 .card input[type="password"] {
     width: 100%;
@@ -100,14 +54,17 @@ body {
     margin-bottom: 15px;
     border-radius: 5px;
     border: 1px solid #ced4da;
+    background-color: rgb(96, 117, 125);
+    color: white;
 }
 
 .card button {
-    width: 100%;
+    width: 49%;
     padding: 10px;
-    background-color: #007bff;
+    margin-top: 15px;
+    background-color:  rgb(96, 117, 125);;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -115,7 +72,7 @@ body {
 }
 
 .card button:hover {
-    background-color: #0056b3;
+    background-color: #040506;
 }
 
 .card a {
@@ -134,3 +91,5 @@ body {
     text-align: center;
     margin-bottom: 10px;
 }
+
+

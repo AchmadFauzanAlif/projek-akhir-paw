@@ -1,21 +1,37 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'db.php';
+$errors = [];
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if (isset($_POST["submit"])) {
+    include '../db.php';
+    if (!preg_match("/^[a-zA-Z .]+$/", $_POST['name'])) {
+        $errors['name'] = "Nama hanya boleh berisi huruf";
+    }
 
-    // Cek database
-    $query = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $query->execute([$username, $password]);
-    $user = $query->fetch();
+    if (!preg_match("/^[0-9]+$/", $_POST['nomor'])) {
+        $errors['nomor'] = "Nomor telepon hanya boleh berisi angka";
+    }
 
-    if ($user) {
-        $_SESSION['user'] = $user['username'];
-        header('Location: index.php');
+    if (!empty($errors)) {
+        echo "<script>alert('" . implode("\\n", $errors) . "');</script>";
     } else {
-        $error = "Username atau password salah!";
+        $hashed_password = md5($_POST["password"]);
+
+        $username = htmlspecialchars($_POST["username"]);
+        $nama = htmlspecialchars($_POST["name"]);
+        $alamat = htmlspecialchars($_POST["alamat"]);
+        $telp = htmlspecialchars($_POST["nomor"]);
+
+        $query = mysqli_query($conn, "INSERT INTO user (username, password, nama, alamat, hp, level) 
+                VALUES ('$username', '$hashed_password', '$nama', '$alamat', '$telp', '$level')");
+
+        if ($query) {
+            echo "<script>alert('Data berhasil ditambah!');</script>";
+            header('Location: login.php');
+            exit();
+        } else {
+            echo "<script>alert('Gagal menambah data.');</script>";
+        }
     }
 }
 ?>
@@ -25,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Register</title>
+    <link rel="icon" type="image/png" href="../img/logoGili.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style_register.css">
     <style>
         body {
             margin: 0;
@@ -105,26 +123,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+</head>
 
 <body>
-    <div class="login-container">
-        <h1>Daftar Akun</h1>
-        <?php if (isset($error)): ?>
-            <p class="error-message"><?= $error ?></p>
-        <?php endif; ?>
-        <form method="POST" action="">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <label for="telp">Nomor Telephone:</label>
-            <input type="number" id="telp" name="telp" placeholder="Nomor Telepon">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Email">
-            <button type="submit">Daftar</button>
-        </form>
-        <a href="../index.php"><button type="button">Kembali</button></a>
-        <a href="login.php">sudah punya akun</a>
+    <div class="register-content">
+        <div class="container">
+            <div class="card">
+                <h2>Daftar Akun</h2>
+                <form action="save_register.php" method="POST">
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" id="username" required>
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" required>
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" required>
+                    <label for="nomor">No. Telp:</label>
+                    <input type="text" name="nomor" id="nomor" required>
+                    <button type="submit" class="btn btn-primary">Daftar</button>
+                    <button name="kembali"  onclick="location.href='login.php'" class="btn btn-secondary">Kembali</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 
