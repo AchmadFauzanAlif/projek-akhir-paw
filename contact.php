@@ -169,7 +169,7 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
             gap: 15px;
             margin-top: 20px;
         }
- 
+
         .social-media a img {
             width: 50px;
             height: 50px;
@@ -199,14 +199,14 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="theme-icon me-3">🌙</span>
-                    <a href="#" class="btn btn-outline-light">Login</a>
+                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
                 </div>
             </div>
         </div>

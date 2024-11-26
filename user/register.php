@@ -45,6 +45,83 @@ if (isset($_POST["submit"])) {
     <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/style_register.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #000000, #3533cd, #3533cd);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 30px 30px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h1 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-container label {
+            font-size: 0.9rem;
+            color: #555;
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-container button:hover {
+            background: #0056b3;
+        }
+
+        .login-container a {
+            text-decoration: none;
+            color: #007bff;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .login-container a:hover {
+            color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 </head>
 

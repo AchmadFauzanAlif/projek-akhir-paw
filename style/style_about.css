@@ -53,50 +53,110 @@ body, html {
     align-items: center; /* Logo di tengah vertikal */
 }
 
-/* Hero Section Styling */
-.hero-section {
+
+.content-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), #00000080), 
     url('../img/backgroundGili.png') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
-    height: 100vh;
+    padding: 50px 20px;
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+.content-section h2 {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    margin-bottom: 30px;
+    text-align: center;
+}
+.content-img {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+
+.content-section {
+    padding-top: 100px; /* Space between navbar and content */
+    margin-bottom: 30px;
+}
+
+.content-img {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.wrapper {
+    display: flex;
     align-items: center;
-    text-align: center;
-    color: white;
-    padding: 20px;
-}
-.hero-section h1, .hero-section h3 {
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
-.hero-section .form-buttons {
-    display: inline-flex;
-    justify-content: center; 
-    padding: 0; 
-    margin: 0; 
+.wrapper img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
 }
 
-.hero-section button {
-    border: none;
-    padding: 10px 10px;
-    margin: 10px;
-    font-size: 1rem;
+.wrapper h5 {
+    margin: 0;
+    font-size: 1.2rem;
 }
 
-.hero-section button:hover {
-    color: rgb(0, 119, 255); /* Warna saat hover (opsional) */
+.wrapper p.img-caption {
+    font-size: 0.9rem;
+    color: #ffff;
+    padding-top: 20px;
 }
+
+.wrapper:nth-child(odd) {
+    flex-direction: row;
+}
+
+.wrapper:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .wrapper img {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+.content-img .wrapper {
+    display: flex;
+    justify-content: flex-start; /* Default gambar di kiri */
+    gap: 20px;
+}
+
+.content-img .wrapper img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.content-img .wrapper.right {
+    justify-content: flex-end;
+}
+
 
 
 @media (max-width: 768px) {
-    .hero-section, .content-section {
-        height: auto;
-        padding: 30px 10px; /* Kurangi padding untuk layar kecil */
+    .content-img {
+        gap: 15px; /* Kurangi gap untuk gambar */
     }
-    .hero-section h1, .content-section h2 {
-        font-size: 1.5rem;
+    .content-img .wrapper {
+        flex-wrap: wrap; /* Gambar akan wrap di layar kecil */
     }
 }

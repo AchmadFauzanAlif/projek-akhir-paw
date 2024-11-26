@@ -39,14 +39,14 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket.php">Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="theme-icon me-3">🌙</span>
-                    <a href="#" class="btn btn-outline-light">Login</a>
+                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
                 </div>
             </div>
         </div>
@@ -57,8 +57,8 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
         <div class="container">
             <h3>Pulau Gili Labak</h3>
             <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
-            <a href="tiket.php" class="btn btn-light mt-4">Pesan Tiket</a>
-            <a href="#" class="btn btn-light mt-4">Cek pembayaran</a>
+            <a href="../tiket/tiket.php" class="btn btn-light mt-4">Pesan Tiket</a>
+            <a href="cek_pembayaran.php" class="btn btn-light mt-4">Cek pembayaran</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
