@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
+if (isset($_POST["login"])) {
     if (empty($_SESSION["user"])) {
-        header("Location: login.php");
-    } else {
-        header("Location: add_tiket.php");
+        header("Location: user/login.php");
     }
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -19,14 +18,11 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gili Labak</title>
     <link rel="icon" type="image/png" href="img/logoGili.png">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="style/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
@@ -37,17 +33,42 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+            <?php if(empty($_SESSION["user"])) : ?>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
                 </ul>
-                <div class="d-flex align-items-center">
+            <?php elseif(!empty($_SESSION["user"])) : ?>
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                </ul>
+            <?php endif; ?>
+            <?php if(empty($_SESSION["user"])) : ?>
                     <span class="theme-icon me-3">🌙</span>
-                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
-                </div>
+                    <form action="" method="post">
+                        <button type="submit" name="login" class="btn btn-outline-light">Login</button>
+                    </form>
+                    
+            <?php elseif(!empty($_SESSION["user"])) : ?>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span>Hallow <?= $_SESSION["user"] ?></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            <?php endif; ?>
             </div>
         </div>
     </nav>

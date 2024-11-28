@@ -1,0 +1,98 @@
+/* Navbar */
+.navbar {
+    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    color: white;
+}
+
+/* Navbar Links Centered */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; 
+}
+
+/* Warna default tautan navbar */
+.navbar-nav .nav-link {
+    color: white; 
+    font-size: 1rem;
+    margin: 0 15px; 
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Warna biru saat tautan di-hover */
+.navbar-nav .nav-link:hover {
+    background-color: #1e90ff;
+    color: white; 
+    border-radius: 5px;
+    padding: 5px 10px; 
+}
+
+.navbar-nav .nav-link.active {
+    color: #1e90ff;
+    font-weight: bold;
+}
+
+.logo img {
+    height: 40px;
+    width: auto; 
+    margin-right: 10px; 
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.status-container {
+    margin: 100px auto 0;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.status-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #4b4b4b;
+}
+.table-container {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+.btn-payment {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn-payment:hover {
+    background-color: #45a049;
+}
+.status {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
+}

@@ -1,24 +1,27 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'db.php';
+if (isset($_POST["username"])) {
+    include '../db.php';
 
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Cek database
-    $query = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-    $query->execute([$username, $password]);
-    $user = $query->fetch();
+    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($conn, $query);
 
-    if ($user) {
+    if (mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
         $_SESSION['user'] = $user['username'];
-        header('Location: index.php');
+        header('Location: ../index.php');
+        exit;
     } else {
         $error = "Username atau password salah!";
     }
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 

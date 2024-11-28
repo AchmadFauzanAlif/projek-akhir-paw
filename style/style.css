@@ -13,44 +13,44 @@ body, html {
 /* Navbar Links Centered */
 .navbar-nav {
     display: flex;
-    justify-content: center; /* Pusatkan elemen dalam ul */
-    align-items: center; /* Rata tengah vertikal */
-    margin: 0 auto; /* Pusatkan navbar-nav dalam navbar */
+    justify-content: center; 
+    align-items: center; 
+    margin: 0 auto; 
 }
 
 /* Warna default tautan navbar */
 .navbar-nav .nav-link {
-    color: white; /* Warna awal */
+    color: white; 
     font-size: 1rem;
-    margin: 0 15px; /* Spasi antar item */
+    margin: 0 15px; 
     text-decoration: none;
-    transition: background-color 0.3s, color 0.3s; /* Transisi animasi halus */
+    transition: background-color 0.3s, color 0.3s; 
 }
 
 /* Warna biru saat tautan di-hover */
 .navbar-nav .nav-link:hover {
-    background-color: #1e90ff; /* Biru terang saat hover */
-    color: white; /* Tetap putih agar kontras */
-    border-radius: 5px; /* Efek sudut membulat */
-    padding: 5px 10px; /* Tambahkan padding ekstra */
+    background-color: #1e90ff; 
+    color: white; 
+    border-radius: 5px; 
+    padding: 5px 10px; 
 }
 
 /* Tautan aktif */
 .navbar-nav .nav-link.active {
-    color: #1e90ff; /* Warna biru terang untuk tautan aktif */
-    font-weight: bold; /* Teks tebal */
+    color: #1e90ff; 
+    font-weight: bold; 
 }
 
 /* Styling logo */
 .logo img {
-    height: 40px; /* Sesuaikan tinggi logo */
-    width: auto; /* Jaga proporsi gambar */
-    margin-right: 10px; /* Jarak antara logo dan teks */
+    height: 40px; 
+    width: auto; 
+    margin-right: 10px; 
 }
 
 .navbar .logo {
     display: flex;
-    align-items: center; /* Logo di tengah vertikal */
+    align-items: center; 
 }
 
 /* Hero Section Styling */
