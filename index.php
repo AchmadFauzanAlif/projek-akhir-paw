@@ -1,13 +1,19 @@
 <?php
 session_start();
 
-if (isset($_POST["pesan-tiket"]) || isset($_POST["cek-pembayaran "])) {
+if (isset($_POST["pesan-tiket"]) || isset($_POST["pesan-tiket"])) {
     if (empty($_SESSION["user"])) {
         header("Location: login.php");
+        exit();
     } else {
         header("Location: tiket/tiket.php");
+        exit();
     }
-    exit();
+}
+
+
+if(isset($_POST["cek-pembayaran"])) {
+    header("Location: pembayaran/cek_pembayaran.php");
 }
 ?>
 
@@ -62,7 +68,7 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["cek-pembayaran "])) {
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                    <a class="dropdown-item text-danger" href="ogout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -84,7 +90,6 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["cek-pembayaran "])) {
         <?php elseif(empty($_SESSION["user"])) : ?>
             <form action="" method="post">
                 <button type="submit" name="pesan-tiket" class="btn btn-light mt-4">Pesan Tiket</button>
-                <!-- <button type="submit" name="cek-pembayaran" class="btn btn-light mt-4">Cek Pembayaran</button> -->
             </form>
         <?php endif; ?>
 

@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
-    if (empty($_SESSION["user"])) {
-        header("Location: login.php");
-    } else {
-        header("Location: add_tiket.php");
-    }
+# Penambahan agar user tidak bisa masuk
+if (empty($_SESSION["user"])) {
+    header("Location: ../user/login.php");
     exit();
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,6 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
         <div class="container">
             <div class="logo">
                 <img src="../img/logoGili.png" alt="Gili Labak Logo">
-                <a class="navbar-brand" href="index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -47,7 +46,14 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
                 <?php if(empty($_SESSION["user"])) : ?>
                     <a href="user/login.php" class="btn btn-outline-light">Login</a>
                 <?php elseif(!empty($_SESSION["user"])) : ?>
-                    <span>Hallow <?= $_SESSION["user"] ?></span>
+                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Hallow <?= $_SESSION["user"] ?></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                </li>
+                            </ul>
                 <?php endif; ?>
                 </div>
             </div>
@@ -67,9 +73,12 @@ if (isset($_POST["pesan-tiket"]) || isset($_POST["history"])) {
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr>
                         <td colspan="4" class="status">Belum Dibayar</td>
                     </tr>
+
+                    
                 </tbody>
             </table>
         </div>

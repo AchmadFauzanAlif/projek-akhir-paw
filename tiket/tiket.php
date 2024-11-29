@@ -1,10 +1,20 @@
 <?php
 session_start();
+include "../db.php";
 
+
+# jika user masuk tanpa login tidak boleh
 if(empty($_SESSION["user"])) {
     header("Location: ../user/login.php");
     exit();
 }
+
+# tentukan level user 1, 2, 3?
+
+
+# menambahkan data tiket ke dalam database
+
+
 
 ?>
 
@@ -25,7 +35,6 @@ if(empty($_SESSION["user"])) {
         <div class="container">
             <div class="logo">
                 <img src="../img/logoGili.png" alt="Gili Labak Logo">
-                <a class="navbar-brand" href="index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -44,7 +53,7 @@ if(empty($_SESSION["user"])) {
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                <a class="dropdown-item text-danger" href="../logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
                             </li>
                         </ul>
                     </li>
@@ -53,12 +62,10 @@ if(empty($_SESSION["user"])) {
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <div class="hero-section">
-        <!-- Ticket Section -->
         <div class="container ticket-section">
             <div class="ticket-card">
-                <h4>Tiket Masuk</h4>
+                <h4>Tiket Normal</h4>
                 <br>
                 <p>Yang Didapat:</p>
                 <ul>
@@ -67,7 +74,7 @@ if(empty($_SESSION["user"])) {
                     <li>Sewa Perahu</li>
                 </ul>
                 <div class="price">Rp 110.000</div>
-                <button>Pesan Tiket</button>
+                <!-- <button>Pesan Tiket</button> -->
             </div>
             <div class="ticket-card">
                 <h4>Tiket VIP</h4>
@@ -80,21 +87,21 @@ if(empty($_SESSION["user"])) {
                     <li>Snorkeling</li>
                 </ul>
                 <div class="price">Rp 250.000</div>
-                <button>Pesan Tiket</button>
+                <!-- <button>Pesan Tiket</button> -->
             </div>
             <div class="ticket-card">
+                <img src="" alt="">
                 <h4>Tiket VVIP</h4>
                 <br>
                 <p>Tiket VVIP termasuk semua fasilitas VIP plus Kuliner</p>
                 <div class="price">Rp 400.000</div>
-                <button>Pesan Tiket</button>
+
             </div>
         </div>
-        <!-- User Profile Section -->
         <div class="container mt-5">
             <div class="user-profile">
                 <h5>Pemesanan Tiket</h5>
-                <form>
+                <form method="post">
                     <label for="Nama">Nama</label>
                     <input type="text" placeholder="Nama" name="Nama">
                     <label for="Nomor Telp">Nomor Telp</label>
@@ -102,8 +109,8 @@ if(empty($_SESSION["user"])) {
                     <label for="date">Tgl Booking</label>
                     <input type="date" placeholder="Tgl booking" name="date">
                     <label for="tipe tiket">Tipe Tiket</label>
-                    <select>
-                        <option>Pilih tipe tiket</option>
+                    <select name="tipe-tiket">
+                        <option value="" disabled selected>Pilih tipe tiket</option>
                         <option value="tiket-masuk">Tiket Masuk</option>
                         <option value="tiket-vip">Tiket VIP</option>
                         <option value="tiket-vvip">Tiket VVIP</option>
