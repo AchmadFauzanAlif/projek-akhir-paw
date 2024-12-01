@@ -116,6 +116,7 @@ if (empty($_SESSION["user"])) {
             </div>
         </div>
     </nav>
+    
     <div class="hero-section container">
         <div class="button-info">
             <a href="pembayaran.php"><button class="info-pembayaran">Info Pembayaran</button></a>

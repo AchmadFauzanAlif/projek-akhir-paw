@@ -18,7 +18,26 @@ $id = $_GET['id'];
 $pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
 
 if(isset($_POST["pesan-tiket"])) {
+
+    $pelangganID = $_POST["pelanggan_id"];
+    $jumlahTiket = $_POST["jumlah-tiket"];
+    $telp = $_POST["nomor-telp"];
+    $tanggalBoking = $_POST["tanggal-booking"];
+    $tipeTiket = $_POST["tipe-tiket"];
+
+    $tambahTiket = 
+        "INSERT INTO 
+            pemesanan 
+        VALUES 
+            (NULL, '$jumlahTiket', '$tanggalBoking', '$telp', '$tipeTiket', '$pelangganID', NULL);";
     
+    if(mysqli_query($conn, $tambahTiket)) {
+        header("Location: ../pembayaran/pembayaran.php");
+        exit;
+
+    }
+
+
 
 }
 
@@ -106,25 +125,27 @@ if(isset($_POST["pesan-tiket"])) {
             <div class="user-profile">
                 <h5>Pemesanan Tiket</h5>
                 <form method="post">
-                    <input type="hidden" name="pelanggan" value="<?= $pelanggan['id'] ?>">
+                    <input type="hidden" name="pelanggan_id" value="<?= $pelanggan['id'] ?>">
 
                     <label for="date">Pelanggan: </label>
                     <input type="text" placeholder="Pelanggan" disabled value="<?php echo $pelanggan["nama"] ?>">
 
                     <label for="Nama">Jumlah Tiket: </label>
                     <input type="number" placeholder="Jumlah Tiket" name="jumlah-tiket">
+
                     <label for="Nomor Telp">Nomor Telp</label>
-                    <input type="number" placeholder="Nomor Telp" name="Nomor Telp">
+                    <input type="number" placeholder="Nomor Telp" name="nomor-telp">
+
                     <label for="date">Tgl Booking</label>
-                    <input type="date" placeholder="Tgl booking" name="date">
+                    <input type="date" placeholder="Tgl booking" name="tanggal-booking">
 
 
                     <label for="tipe tiket">Tipe Tiket</label>
                     <select name="tipe-tiket">
                         <option value="" disabled selected>Pilih tipe tiket</option>
-                        <option value="tiket-masuk">Tiket Masuk</option>
-                        <option value="tiket-vip">Tiket VIP</option>
-                        <option value="tiket-vvip">Tiket VVIP</option>
+                        <option value="Normal">Tiket Masuk</option>
+                        <option value="VIP">Tiket VIP</option>
+                        <option value="VVIP">Tiket VVIP</option>
                     </select>
 
                     <button type="submit" name="pesan-tiket">Pesan</button>
