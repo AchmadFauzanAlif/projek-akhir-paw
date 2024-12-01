@@ -11,12 +11,15 @@ if (isset($_POST["pesan-tiket"])) {
         exit();
     }
 }
+
 if (!empty($_SESSION['id'])) {
     $id = $_SESSION['id'];
     $pelanggan = query("SELECT * FROM users WHERE id = $id");
 }
 
-if (isset($_POST["cek-pembayaran"])) {
+
+
+if(isset($_POST["cek-pembayaran"])) {
     header("Location: pembayaran/cek_pembayaran.php");
 }
 
