@@ -1,20 +1,26 @@
 <?php
+include "function.php";
 session_start();
 
-if (isset($_POST["pesan-tiket"]) || isset($_POST["pesan-tiket"])) {
+if (isset($_POST["pesan-tiket"])) {
     if (empty($_SESSION["user"])) {
-        header("Location: login.php");
+        header("Location: user/login.php");
         exit();
     } else {
-        header("Location: tiket/tiket.php");
+        header("Location: tiket/tiket.php?");
         exit();
     }
 }
+
+$id = $_SESSION['id'];
+$pelanggan = query("SELECT * FROM users WHERE id = $id");
 
 
 if(isset($_POST["cek-pembayaran"])) {
     header("Location: pembayaran/cek_pembayaran.php");
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +74,7 @@ if(isset($_POST["cek-pembayaran"])) {
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item text-danger" href="ogout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                    <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
                                 </li>
                             </ul>
                         </li>
@@ -84,8 +90,12 @@ if(isset($_POST["cek-pembayaran"])) {
             <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
         <?php if (!empty($_SESSION["user"])) :?>
         <form action="" method="post">
-            <button type="submit" name="pesan-tiket" class="btn btn-light mt-4">Pesan Tiket</button>
-            <button type="submit" name="cek-pembayaran" class="btn btn-light mt-4">Cek Pembayaran</button>
+
+        <?php foreach($pelanggan as $row) : ?>
+            <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
+            <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
+        <?php endforeach; ?>
+
         </form>
         <?php elseif(empty($_SESSION["user"])) : ?>
             <form action="" method="post">

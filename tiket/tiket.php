@@ -1,6 +1,7 @@
 <?php
 session_start();
-include "../db.php";
+
+include "../function.php";
 
 
 # jika user masuk tanpa login tidak boleh
@@ -13,8 +14,13 @@ if(empty($_SESSION["user"])) {
 
 
 # menambahkan data tiket ke dalam database
+$id = $_GET['id'];
+$pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
 
+if(isset($_POST["pesan-tiket"])) {
+    
 
+}
 
 ?>
 
@@ -74,7 +80,6 @@ if(empty($_SESSION["user"])) {
                     <li>Sewa Perahu</li>
                 </ul>
                 <div class="price">Rp 110.000</div>
-                <!-- <button>Pesan Tiket</button> -->
             </div>
             <div class="ticket-card">
                 <h4>Tiket VIP</h4>
@@ -87,7 +92,6 @@ if(empty($_SESSION["user"])) {
                     <li>Snorkeling</li>
                 </ul>
                 <div class="price">Rp 250.000</div>
-                <!-- <button>Pesan Tiket</button> -->
             </div>
             <div class="ticket-card">
                 <img src="" alt="">
@@ -102,12 +106,19 @@ if(empty($_SESSION["user"])) {
             <div class="user-profile">
                 <h5>Pemesanan Tiket</h5>
                 <form method="post">
-                    <label for="Nama">Nama</label>
-                    <input type="text" placeholder="Nama" name="Nama">
+                    <input type="hidden" name="pelanggan" value="<?= $pelanggan['id'] ?>">
+
+                    <label for="date">Pelanggan: </label>
+                    <input type="text" placeholder="Pelanggan" disabled value="<?php echo $pelanggan["nama"] ?>">
+
+                    <label for="Nama">Jumlah Tiket: </label>
+                    <input type="number" placeholder="Jumlah Tiket" name="jumlah-tiket">
                     <label for="Nomor Telp">Nomor Telp</label>
                     <input type="number" placeholder="Nomor Telp" name="Nomor Telp">
                     <label for="date">Tgl Booking</label>
                     <input type="date" placeholder="Tgl booking" name="date">
+
+
                     <label for="tipe tiket">Tipe Tiket</label>
                     <select name="tipe-tiket">
                         <option value="" disabled selected>Pilih tipe tiket</option>
@@ -115,6 +126,7 @@ if(empty($_SESSION["user"])) {
                         <option value="tiket-vip">Tiket VIP</option>
                         <option value="tiket-vvip">Tiket VVIP</option>
                     </select>
+
                     <button type="submit" name="pesan-tiket">Pesan</button>
                 </form>
             </div>
