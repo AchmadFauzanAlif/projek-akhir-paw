@@ -12,8 +12,10 @@ if (isset($_POST["pesan-tiket"])) {
     }
 }
 
-$id = $_SESSION['id'];
-$pelanggan = query("SELECT * FROM users WHERE id = $id");
+if(!empty($_SESSION["id"])) {
+    $id = $_SESSION['id'];
+    $pelanggan = query("SELECT * FROM users WHERE id = $id");
+}
 
 
 if(isset($_POST["cek-pembayaran"])) {
