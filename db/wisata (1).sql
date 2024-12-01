@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 28, 2024 at 03:33 PM
+-- Generation Time: Dec 01, 2024 at 02:58 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.13
 
@@ -36,6 +36,14 @@ CREATE TABLE `pelanggan` (
   `alamat` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id`, `user_id`, `nama`, `jenis_kelamin`, `telp`, `alamat`) VALUES
+(6, 1, 'dicky pras', 'L', '081234567891', 'Surabaya'),
+(7, 2, 'Rafli', 'L', '08123456788', 'Bangkalan');
+
 -- --------------------------------------------------------
 
 --
@@ -44,12 +52,34 @@ CREATE TABLE `pelanggan` (
 
 CREATE TABLE `pembayaran` (
   `id` int NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `nik` int NOT NULL,
+  `pembarayan` enum('Cash','Mobile Bank','E-Wallet','') COLLATE utf8mb4_general_ci NOT NULL,
   `nopol_kendaraan` int NOT NULL,
-  `total_harga` int NOT NULL
+  `total_harga` int NOT NULL,
+  `pemesanan_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pemesanan`
+--
+
+CREATE TABLE `pemesanan` (
+  `id` int NOT NULL,
+  `jumlah_tiket` int NOT NULL,
+  `waktu_transaksi` date NOT NULL,
+  `telp` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipe_tiket` enum('Normal','VIP','VVIP','') COLLATE utf8mb4_general_ci NOT NULL,
+  `pelanggan_id` int NOT NULL,
+  `status_pembayaran` enum('Pending','Sukses') COLLATE utf8mb4_general_ci DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pemesanan`
+--
+
+INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `telp`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
+(1, 2, '2024-12-01', '085924854545', 'Normal', 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -68,28 +98,13 @@ CREATE TABLE `status pemesanan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
---
-
-CREATE TABLE `transaksi` (
-  `id` int NOT NULL,
-  `waktu_transaksi` date NOT NULL,
-  `keterangan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `total` int NOT NULL,
-  `pelanggan_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `transaksi_detail`
 --
 
 CREATE TABLE `transaksi_detail` (
   `id` int NOT NULL,
   `transaksi_id` int NOT NULL,
-  `pembayaran_id` int NOT NULL,
-  `harga` int NOT NULL
+  `pembayaran_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -128,21 +143,21 @@ ALTER TABLE `pelanggan`
 -- Indexes for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pemesanan_pembayaran` (`pemesanan_id`);
+
+--
+-- Indexes for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pelanggan_id` (`pelanggan_id`);
 
 --
 -- Indexes for table `status pemesanan`
 --
 ALTER TABLE `status pemesanan`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pelanggan_id` (`pelanggan_id`);
-
---
--- Indexes for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `pelanggan_id` (`pelanggan_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `transaksi_detail`
@@ -166,7 +181,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
@@ -175,15 +190,15 @@ ALTER TABLE `pembayaran`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `status pemesanan`
 --
 ALTER TABLE `status pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transaksi`
---
-ALTER TABLE `transaksi`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -209,22 +224,22 @@ ALTER TABLE `pelanggan`
   ADD CONSTRAINT `pelanggan_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `status pemesanan`
+-- Constraints for table `pembayaran`
 --
-ALTER TABLE `status pemesanan`
-  ADD CONSTRAINT `status pemesanan_ibfk_1` FOREIGN KEY (`pelanggan_id`) REFERENCES `pelanggan` (`id`);
+ALTER TABLE `pembayaran`
+  ADD CONSTRAINT `fk_pemesanan_pembayaran` FOREIGN KEY (`pemesanan_id`) REFERENCES `pemesanan` (`id`);
 
 --
--- Constraints for table `transaksi`
+-- Constraints for table `pemesanan`
 --
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`pelanggan_id`) REFERENCES `pelanggan` (`id`);
+ALTER TABLE `pemesanan`
+  ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`pelanggan_id`) REFERENCES `pelanggan` (`id`);
 
 --
 -- Constraints for table `transaksi_detail`
 --
 ALTER TABLE `transaksi_detail`
-  ADD CONSTRAINT `transaksi_detail_ibfk_2` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksi` (`id`),
+  ADD CONSTRAINT `transaksi_detail_ibfk_2` FOREIGN KEY (`transaksi_id`) REFERENCES `pemesanan` (`id`),
   ADD CONSTRAINT `transaksi_detail_ibfk_3` FOREIGN KEY (`pembayaran_id`) REFERENCES `pembayaran` (`id`);
 COMMIT;
 
