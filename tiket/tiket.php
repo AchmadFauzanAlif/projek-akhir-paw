@@ -14,8 +14,11 @@ if(empty($_SESSION["user"])) {
 
 
 # menambahkan data tiket ke dalam database
-$id = $_GET['id'];
-$pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
+
+if(!empty($_SESSION["id"])) {
+    $id = $_GET['id'];
+    $pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
+}
 
 if(isset($_POST["pesan-tiket"])) {
 
