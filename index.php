@@ -11,12 +11,12 @@ if (isset($_POST["pesan-tiket"])) {
         exit();
     }
 }
+if (!empty($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+    $pelanggan = query("SELECT * FROM users WHERE id = $id");
+}
 
-$id = $_SESSION['id'];
-$pelanggan = query("SELECT * FROM users WHERE id = $id");
-
-
-if(isset($_POST["cek-pembayaran"])) {
+if (isset($_POST["cek-pembayaran"])) {
     header("Location: pembayaran/cek_pembayaran.php");
 }
 
@@ -46,35 +46,48 @@ if(isset($_POST["cek-pembayaran"])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <?php if(empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
-                </ul>
-            <?php elseif(!empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
-                </ul>
-            <?php endif; ?>
-                <?php if(empty($_SESSION["user"])) : ?>
-                    <span class="theme-icon me-3">🌙</span>
-                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
-                    
-                <?php elseif(!empty($_SESSION["user"])) : ?>
-                    <ul class="navbar-nav ms-auto">
+                <?php if (empty($_SESSION["user"])) : ?>
+                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                    </ul>
+                <?php elseif (!empty($_SESSION["user"])) : ?>
+                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                        <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                        <?php endif; ?>
+                    </ul>
+                <?php endif; ?>
+                <?php if (empty($_SESSION["user"])) : ?>
+                    <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
+
+                <?php elseif (!empty($_SESSION["user"])) : ?>
+                    <ul class="navbar-nav ms-auto user-nav">
                         <li class="nav-item dropdown">
-                            <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Hallow <?= $_SESSION["user"] ?></span>
+                            <button
+                                class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img
+                                    src="img/profil.png"
+                                    alt="User Icon"
+                                    class="user-icon">
+                                <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                    <a
+                                        class="dropdown-item text-danger logout-link"
+                                        href="logout.php"
+                                        onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                        Logout
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -88,20 +101,20 @@ if(isset($_POST["cek-pembayaran"])) {
         <div class="container">
             <h3>Pulau Gili Labak</h3>
             <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
-        <?php if (!empty($_SESSION["user"])) :?>
-        <form action="" method="post">
+            <?php if (!empty($_SESSION["user"])) : ?>
+                <form action="" method="post">
 
-        <?php foreach($pelanggan as $row) : ?>
-            <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
-            <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
-        <?php endforeach; ?>
+                    <?php foreach ($pelanggan as $row) : ?>
+                        <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
+                        <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
+                    <?php endforeach; ?>
 
-        </form>
-        <?php elseif(empty($_SESSION["user"])) : ?>
-            <form action="" method="post">
-                <button type="submit" name="pesan-tiket" class="btn btn-light mt-4">Pesan Tiket</button>
-            </form>
-        <?php endif; ?>
+                </form>
+            <?php elseif (empty($_SESSION["user"])) : ?>
+                <form action="" method="post">
+                    <button type="submit" name="pesan-tiket" class="btn btn-light mt-4">Pesan Tiket</button>
+                </form>
+            <?php endif; ?>
 
         </div>
     </div>
