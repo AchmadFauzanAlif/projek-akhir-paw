@@ -28,7 +28,7 @@ if (!empty($_SESSION['id'])) {
     <link rel="icon" type="image/png" href="img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style/style.css" rel="stylesheet">
-    <link href="style/style_about.css" rel="stylesheet">
+    <link rel="stylesheet" href="style/style_about.css">
 </head>
 
 <body>
@@ -44,22 +44,22 @@ if (!empty($_SESSION['id'])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
             <?php if(empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     <li class="nav-item"><a class="nav-link" href="user/login.php">Tiket</a></li>
                 </ul>
             <?php elseif(!empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
 
-                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
-                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
-                    <?php endif; ?>
+                        <?php if (isset($_SESSION["level"]) && $_SESSION["level"] == "1") : ?>
+                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                        <?php endif; ?>
 
                 </ul>
             <?php endif; ?>
@@ -69,36 +69,35 @@ if (!empty($_SESSION['id'])) {
                         <button type="submit" name="login" class="btn btn-outline-light">Login</button>
                     </form>
                     
-            <?php elseif(!empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav ms-auto user-nav">
-                    <li class="nav-item dropdown">
-                        <button
-                            class="btn btn-dark dropdown-toggle user-dropdown-btn"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <img
-                                src="img/profil.png"
-                                alt="User Icon"
-                                class="user-icon">
-                            <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a
-                                    class="dropdown-item text-danger logout-link"
-                                    href="logout.php"
-                                    onclick="return confirm('Apakah Anda yakin ingin logout?')">
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            <?php endif; ?>
+                    <?php elseif (!empty($_SESSION["user"])) : ?>
+                    <ul class="navbar-nav ms-auto user-nav">
+                        <li class="nav-item dropdown">
+                            <button
+                                class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <img
+                                    src="img/profil.png"
+                                    alt="User Icon"
+                                    class="user-icon">
+                                <span class="user-greeting">Halo <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a
+                                        class="dropdown-item text-danger logout-link"
+                                        href="logout.php"
+                                        onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
-
     <!-- Content Section -->
     <section class="content-section">
         <div class="container">
@@ -140,5 +139,4 @@ if (!empty($_SESSION['id'])) {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

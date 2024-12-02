@@ -69,7 +69,6 @@ if (isset($_POST["daftar"])) {
     <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/style_register.css">
-    <link rel="stylesheet" href="../style/style.css">
 </head>
 
 <body>
@@ -121,6 +120,7 @@ if (isset($_POST["daftar"])) {
                         <button type="button" onclick="location.href='login.php'" class="btn btn-secondary">Kembali</button>
                     </div>
                 </form>
+                <a href="login.php">sudah punya akun</a>
             </div>
         </div>
     </div>

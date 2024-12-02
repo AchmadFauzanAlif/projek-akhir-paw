@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2024 at 02:58 PM
+-- Generation Time: Dec 01, 2024 at 02:47 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.13
 
@@ -73,13 +73,6 @@ CREATE TABLE `pemesanan` (
   `pelanggan_id` int NOT NULL,
   `status_pembayaran` enum('Pending','Sukses') COLLATE utf8mb4_general_ci DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `pemesanan`
---
-
-INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `telp`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
-(1, 2, '2024-12-01', '085924854545', 'Normal', 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -193,7 +186,7 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `status pemesanan`
