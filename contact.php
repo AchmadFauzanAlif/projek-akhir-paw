@@ -51,7 +51,7 @@ if (!empty($_SESSION['id'])) {
             <?php elseif(!empty($_SESSION["user"])) : ?>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
 
