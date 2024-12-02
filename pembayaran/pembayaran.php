@@ -128,9 +128,9 @@ if (empty($_SESSION["user"])) {
                     <h5 class="card-title">Metode Pembayaran</h5>
                     <p>Kami menerima metode pembayaran aman berikut:</p>
                     <div class="payment-icons">
-                        <img src="../img/logo bank.jpeg" alt="Bank">
-                        <img src="../img/logo dana.jpg" alt="Dana">
-                        <img src="../img/logo gopay.jpg" alt="GoPay">
+                        <img src="../img/logo bank.png" alt="Bank">
+                        <img src="../img/logo dana.jpeg" alt="Dana">
+                        <img src="../img/logo gopay.png" alt="GoPay">
                     </div>
                 </div>
             </div>
