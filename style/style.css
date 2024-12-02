@@ -15,9 +15,11 @@ body, html {
     display: flex;
     justify-content: center; 
     align-items: center; 
-    margin: 0 auto; 
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
 }
-
+            
 /* Warna default tautan navbar */
 .navbar-nav .nav-link {
     color: white; 
@@ -52,6 +54,74 @@ body, html {
     display: flex;
     align-items: center; 
 }
+.user-nav {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    bottom: 10px;
+}
+
+
+.user-dropdown-btn {
+    display: flex;
+    align-items: center;
+    background-color: #495057; 
+    color: #fff; 
+    border: none;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.user-dropdown-btn:hover {
+    background-color: #6c757d;
+    color: #f8f9fa;
+}
+
+
+.user-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+
+.user-greeting {
+    font-weight: bold;
+    margin: 0;
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #dc3545;
+}
+
+.logout-link {
+    font-weight: bold;
+}
+
+.logout-link:hover {
+    color: #c82333;
+}
+
+
+
 
 /* Hero Section Styling */
 .hero-section {
@@ -87,9 +157,8 @@ body, html {
 }
 
 .hero-section button:hover {
-    color: rgb(0, 119, 255); /* Warna saat hover (opsional) */
+    color: rgb(0, 119, 255); 
 }
-
 
 @media (max-width: 768px) {
     .hero-section, .content-section {

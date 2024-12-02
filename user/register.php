@@ -45,7 +45,6 @@ if (isset($_POST["submit"])) {
     <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/style_register.css">
-    <link rel="stylesheet" href="../style/style.css">
 </head>
 </head>
 
@@ -66,6 +65,7 @@ if (isset($_POST["submit"])) {
                     <button type="submit" class="btn btn-primary">Daftar</button>
                     <button name="kembali"  onclick="location.href='login.php'" class="btn btn-secondary">Kembali</button>
                 </form>
+                <a href="login.php">sudah punya akun</a>
             </div>
         </div>
     </div>

@@ -17,16 +17,16 @@ if (isset($_POST["login"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gili Labak</title>
-    <link rel="icon" type="image/png" href="img/logoGili.png">
+    <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/style_report.css" rel="stylesheet">
+    <link href="../style/style_report.css" rel="stylesheet">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
-                <img src="img/logoGili.png" alt="Gili Labak Logo">
+                <img src="../img/logoGili.png" alt="Gili Labak Logo">
                 <a class="navbar-brand" href="index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,19 +35,19 @@ if (isset($_POST["login"])) {
             <div class="collapse navbar-collapse" id="navbarNav">
                 <?php if (empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
-                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
                     </ul>
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
-                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
                         <?php if (!isset($_SESSION["level"]) == "1") : ?>
-                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                            <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>
                 <?php endif; ?>
@@ -62,7 +62,7 @@ if (isset($_POST["login"])) {
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <img
-                                    src="img/profil.png"
+                                    src="../img/profil.png"
                                     alt="User Icon"
                                     class="user-icon">
                                 <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
@@ -84,24 +84,25 @@ if (isset($_POST["login"])) {
         </div>
     </nav>
 
+
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="section-1">
             <div class="section-1A">
-                <a class="section-a" href="./report/report_harian.php">Harian</a>
-                <a class="section-a" href="./report/report_bulanan.php">Bulanan</a>
-                <a class="section-a" href="./report/report_tahunan.php">Tahunan</a>
-                <a class="section-a" href="./report/report_keuangan.php">Laporan Keuangan</a>
+                <a class="section-a" href="report_harian.php">Harian</a>
+                <a class="section-a" href="report_bulanan.php">Bulanan</a>
+                <a class="section-a" href="report_tahunan.php">Tahunan</a>
+                <a class="section-a" href="report_keuangan.php">Laporan Keuangan</a>
                 <hr>
                 <div class="table-container">
                     <table class="data-table">
                         <tr>
-                            <th>Hari/Tanggal</th>
+                            <th>tahun</th>
                             <th>Total Pengunjung</th>
                         </tr>
                         <tr>
-                            <td>Senin</td>
-                            <td>50</td>
+                            <td>2023</td>
+                            <td>10000</td>
                         </tr>
                     </table>
                 </div>
@@ -126,14 +127,15 @@ if (isset($_POST["login"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
         // Chart 1: Visitor Statistics
         const ctx1 = document.getElementById('chartPengunjung').getContext('2d');
         new Chart(ctx1, {
             type: 'doughnut',
             data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                labels: ['2020', '2021', '2022', '2023', '2024'],
                 datasets: [{
-                    data: [10, 15, 20, 25, 30, 35, 40],
+                    data: [10, 15, 20, 25, 30],
                     backgroundColor: ['#4caf50', '#2196f3', '#ffeb3b', '#f44336', '#9c27b0', '#ff9800', '#00bcd4'],
                 }]
             }
