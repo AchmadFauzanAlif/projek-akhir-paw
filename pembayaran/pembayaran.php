@@ -19,7 +19,8 @@ if (empty($_SESSION["user"])) {
     <title>Gili Labak</title>
     <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../style/style.css" rel="stylesheet">
+    <link href="../style/style_pembayaran.css" rel="stylesheet">
+
     <style>
         body {
             background: url('../img/background.jpg') no-repeat center center fixed;
@@ -119,7 +120,6 @@ if (empty($_SESSION["user"])) {
     
     <div class="hero-section container">
         <div class="button-info">
-            <a href="pembayaran.php"><button class="info-pembayaran">Info Pembayaran</button></a>
             <a href="detail_pembayaran.php"><button class="detail-pembayaran">Detail Pembayaran</button></a>
         </div>
         <div class="row">
@@ -129,7 +129,7 @@ if (empty($_SESSION["user"])) {
                     <p>Kami menerima metode pembayaran aman berikut:</p>
                     <div class="payment-icons">
                         <img src="../img/logo bank.jpeg" alt="Bank">
-                        <img src="../img/logo dana.jpg" alt="Dana">
+                        <img src="../img/dana logo.jpg" alt="Dana">
                         <img src="../img/logo gopay.jpg" alt="GoPay">
                     </div>
                 </div>

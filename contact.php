@@ -31,7 +31,8 @@ if (!empty($_SESSION['id'])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
+    
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
                 <img src="img/logoGili.png" alt="Gili Labak Logo">
@@ -41,33 +42,30 @@ if (!empty($_SESSION['id'])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <?php if (empty($_SESSION["user"])) : ?>
+                <?php if (empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                         <li class="nav-item"><a class="nav-link" href="user/login.php">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     </ul>
-            <?php elseif(!empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+                <?php elseif (!empty($_SESSION["user"])) : ?>
+                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
+                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
 
-                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] == "1") : ?>
-                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
-                    <?php endif; ?>
-
-                </ul>
-            <?php endif; ?>
-            <?php if(empty($_SESSION["user"])) : ?>
-                    <span class="theme-icon me-3">🌙</span>
-                    <form action="" method="post">
-                        <button type="submit" name="login" class="btn btn-outline-light">Login</button>
-                    </form>
+                        <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                        <?php endif; ?>
+                    </ul>
                     
-                    <?php elseif (!empty($_SESSION["user"])) : ?>
+                <?php endif; ?>
+                <?php if (empty($_SESSION["user"])) : ?>
+                    <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
+
+                <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav ms-auto user-nav">
                         <li class="nav-item dropdown">
                             <button
