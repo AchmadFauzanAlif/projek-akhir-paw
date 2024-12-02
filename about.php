@@ -1,12 +1,18 @@
 <?php 
-
 session_start();
+include "function.php";
+
 
 if (isset($_POST["login"])) {
     if (empty($_SESSION["user"])) {
         header("Location: user/login.php");
     }
     exit();
+}
+
+if (!empty($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+    $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
 }
 
 ?>
@@ -22,67 +28,7 @@ if (isset($_POST["login"])) {
     <link rel="icon" type="image/png" href="img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="style/style.css" rel="stylesheet">
-    <style>
-        .content-section {
-            padding-top: 100px; /* Space between navbar and content */
-            margin-bottom: 30px;
-        }
-
-        .content-section h2 {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .content-img {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .wrapper {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .wrapper img {
-            width: 300px;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .wrapper h5 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-
-        .wrapper p.img-caption {
-            font-size: 0.9rem;
-            color: #ffff;
-            padding-top: 20px;
-        }
-
-        .wrapper:nth-child(odd) {
-            flex-direction: row;
-        }
-
-        .wrapper:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        @media (max-width: 768px) {
-            .wrapper {
-                flex-direction: column !important;
-                align-items: center;
-            }
-
-            .wrapper img {
-                width: 100%;
-                max-width: 400px;
-            }
-        }
-    </style>
+    <link href="style/style_about.css" rel="stylesheet">
 </head>
 
 <body>
@@ -102,15 +48,19 @@ if (isset($_POST["login"])) {
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                    <li class="nav-item"><a class="nav-link" href="user/login.php">Tiket</a></li>
                 </ul>
             <?php elseif(!empty($_SESSION["user"])) : ?>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+
+                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                    <?php endif; ?>
+
                 </ul>
             <?php endif; ?>
             <?php if(empty($_SESSION["user"])) : ?>
@@ -120,14 +70,26 @@ if (isset($_POST["login"])) {
                     </form>
                     
             <?php elseif(!empty($_SESSION["user"])) : ?>
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto user-nav">
                     <li class="nav-item dropdown">
-                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span>Hallow <?= $_SESSION["user"] ?></span>
+                        <button
+                            class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img
+                                src="img/profil.png"
+                                alt="User Icon"
+                                class="user-icon">
+                            <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                <a
+                                    class="dropdown-item text-danger logout-link"
+                                    href="logout.php"
+                                    onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </li>

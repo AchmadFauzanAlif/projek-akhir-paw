@@ -2,19 +2,21 @@
 include "function.php";
 session_start();
 
-if (isset($_POST["pesan-tiket"])) {
-    if (empty($_SESSION["user"])) {
-        header("Location: user/login.php");
-        exit();
-    } else {
-        header("Location: tiket/tiket.php?");
-        exit();
-    }
-}
+// if (isset($_POST["pesan-tiket"])) {
+//     if (empty($_SESSION["user"])) {
+//         header("Location: user/login.php");
+//         exit();
+//     } else {
+//         header("Location: tiket/tiket.php");
+//         exit();
+//     }
+// }
 
 if (!empty($_SESSION['id'])) {
     $id = $_SESSION['id'];
-    $pelanggan = query("SELECT * FROM users WHERE id = $id");
+    $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
+
+
 }
 
 
@@ -53,19 +55,21 @@ if(isset($_POST["cek-pembayaran"])) {
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="user/login.php">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     </ul>
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
+                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
+
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
-                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>
+                    
                 <?php endif; ?>
                 <?php if (empty($_SESSION["user"])) : ?>
                     <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
@@ -104,18 +108,15 @@ if(isset($_POST["cek-pembayaran"])) {
         <div class="container">
             <h3>Pulau Gili Labak</h3>
             <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
+
             <?php if (!empty($_SESSION["user"])) : ?>
                 <form action="" method="post">
-
-                    <?php foreach ($pelanggan as $row) : ?>
-                        <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
-                        <a type="submit" href="tiket/tiket.php?id=<?= $row["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
-                    <?php endforeach; ?>
-
+                    <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
+                    <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
                 </form>
             <?php elseif (empty($_SESSION["user"])) : ?>
                 <form action="" method="post">
-                    <button type="submit" name="pesan-tiket" class="btn btn-light mt-4">Pesan Tiket</button>
+                    <a type="submit" name="pesan-tiket" href="user/login.php" class="btn btn-light mt-4">Pesan Tiket</a>
                 </form>
             <?php endif; ?>
 

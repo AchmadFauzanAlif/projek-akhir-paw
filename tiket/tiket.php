@@ -72,16 +72,32 @@ if(isset($_POST["pesan-tiket"])) {
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
+
+                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                        <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                    <?php endif; ?>
+
                 </ul>
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto user-nav">
                     <li class="nav-item dropdown">
-                        <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span>Hallow <?= $_SESSION["user"] ?></span>
+                        <button
+                            class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img
+                                src="../img/profil.png"
+                                alt="User Icon"
+                                class="user-icon">
+                            <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item text-danger" href="../logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                <a
+                                    class="dropdown-item text-danger logout-link"
+                                    href="logout.php"
+                                    onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                    Logout
+                                </a>
                             </li>
                         </ul>
                     </li>

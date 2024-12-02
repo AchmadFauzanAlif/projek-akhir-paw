@@ -1,6 +1,7 @@
 <?php 
 include "db.php";
 
+
 function query($tes){
     global $conn;
     $result = mysqli_query($conn, $tes);

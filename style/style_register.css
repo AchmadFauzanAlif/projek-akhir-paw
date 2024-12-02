@@ -53,6 +53,8 @@ body {
 
 .card input[type="text"], 
 .card input[type="password"],
+.card input[type="tel"],
+.card textarea,
 .card input[type="email"] {
     width: 100%;
     padding: 10px;
