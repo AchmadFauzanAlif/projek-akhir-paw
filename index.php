@@ -41,7 +41,7 @@ if(isset($_POST["cek-pembayaran"])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
                 <img src="img/logoGili.png" alt="Gili Labak Logo">
