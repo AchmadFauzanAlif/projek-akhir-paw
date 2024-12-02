@@ -94,7 +94,7 @@ if(isset($_POST["pesan-tiket"])) {
                             <li>
                                 <a
                                     class="dropdown-item text-danger logout-link"
-                                    href="logout.php"
+                                    href="../logout.php"
                                     onclick="return confirm('Apakah Anda yakin ingin logout?')">
                                     Logout
                                 </a>
