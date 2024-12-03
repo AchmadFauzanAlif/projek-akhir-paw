@@ -109,7 +109,7 @@ if (empty($_SESSION["user"])) {
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item text-danger" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
+                                    <a class="dropdown-item text-danger" href="../logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
                                 </li>
                             </ul>
                 <?php endif; ?>
@@ -128,9 +128,11 @@ if (empty($_SESSION["user"])) {
                     <h5 class="card-title">Metode Pembayaran</h5>
                     <p>Kami menerima metode pembayaran aman berikut:</p>
                     <div class="payment-icons">
+
                         <img src="../img/logo bank.jpeg" alt="Bank">
                         <img src="../img/dana logo.jpg" alt="Dana">
                         <img src="../img/logo gopay.jpg" alt="GoPay">
+
                     </div>
                 </div>
             </div>
