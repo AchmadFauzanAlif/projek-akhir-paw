@@ -11,11 +11,13 @@ if (isset($_POST["username"])) {
 
 
     if (mysqli_num_rows($result) > 0) {
+        // mengabil data user 
         $user = mysqli_fetch_assoc($result);
         $_SESSION['user'] = $user['username'];
         $_SESSION['id'] = $user['id'];
         header('Location: ../index.php');
         exit;
+
     } else {
         $error = "Username atau password salah!";
     }

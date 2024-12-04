@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "../function.php";
+
 
 # Penambahan agar user tidak bisa masuk
 if (empty($_SESSION["user"])) {
@@ -7,8 +9,38 @@ if (empty($_SESSION["user"])) {
     exit();
 }
 
+// filter user
+if($_SESSION['level'] == '1') {
+    header("Location: ../index.php");
+    exit();
+}
 
+//  Mengambil data di pemesanan lalu ditambilkan ke tabel
+$id = $_SESSION['id'];
+$pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
+$pelangganId = $pelanggan["id"];
+$pemesanan = query("
+    SELECT 
+        pemesanan.id,
+        pemesanan.jumlah_tiket,
+        pemesanan.waktu_transaksi,
+        pemesanan.telp,
+        pemesanan.tipe_tiket,
+        pemesanan.pelanggan_id,
+        pelanggan.nama,
+        pemesanan.status_pembayaran
+    FROM 
+        pemesanan
+    JOIN 
+        pelanggan 
+    ON 
+        pemesanan.pelanggan_id = pelanggan.id
+    WHERE 
+        pelanggan.user_id = $id
+");
 
+// nomer untuk table
+$i = 1;
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +71,6 @@ if (empty($_SESSION["user"])) {
                     <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="theme-icon me-3">🌙</span>
@@ -66,23 +97,39 @@ if (empty($_SESSION["user"])) {
             <table>
                 <thead>
                     <tr>
-                        <th>Nama</th>
-                        <th>Nomor Telp</th>
+                        <th>No</th>
+                        <th>Nama Pelanggan</th>
+                        <th>Jumlah Tiket</th>
                         <th>Tgl Booking</th>
+                        <th>Telp</th>
                         <th>Tipe Tiket</th>
+                        <th>Status Pembayaran</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr>
-                        <td colspan="4" class="status">Belum Dibayar</td>
-                    </tr>
-
-                    
+                    <?php foreach($pemesanan as $row): ?>
+                        <tr>
+                            <td><?= $i ?></td>
+                            <td><?= $row["nama"] ?></td>
+                            <td><?= $row["jumlah_tiket"] ?></td>
+                            <td><?= $row["waktu_transaksi"] ?></td>
+                            <td><?= $row["telp"] ?></td>
+                            <td><?= $row["tipe_tiket"] ?></td>
+                            <td><?= $row["status_pembayaran"] ?></td>
+                            <td>
+                                <a href="detail_pembayaran.php?id=<?php echo $row["id"] ?>">Bayar</a>
+                            </td>
+                        </tr>
+                        <?php $i += 1; ?>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
+            
         </div>
-        <a href="pembayaran.php"><button class="btn-payment">Pembayaran</button></a>
+        <div>
+            <a href="../index.php" class="btn">Kembali</a>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

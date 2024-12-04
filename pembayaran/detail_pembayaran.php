@@ -1,10 +1,64 @@
 <?php 
 session_start();
+include "../function.php";
+include "../db.php";
 
 # Penambahan agar user tidak bisa masuk
 if (empty($_SESSION["user"])) {
     header("Location: ../user/login.php");
     exit();
+}
+
+// filter user
+if($_SESSION['level'] == '1') {
+    header("Location: ../index.php");
+    exit();
+}
+
+// filter tidak boleh masuk lewat link / jika tidak mengirimkan id pemesanan tidak boleh masuk
+$pemesananId = $_GET["id"];
+if(empty($pemesananId)) {
+    header("Location: cek_pembayaran.php");
+    exit();
+} 
+
+// menampilkan data pemesanan
+$pemesanan = query("SELECT * FROM pemesanan WHERE id = $pemesananId");
+// var_dump($pemesanan);
+// die;
+
+// menentukan harga per 1 tiket
+$tipeTiket = $pemesanan[0]["tipe_tiket"];
+
+$harga = 0;
+if($tipeTiket === 'Normal') {
+    $harga = 110000;
+} elseif ($tipeTiket === "VIP") {
+    $harga = 250000;
+} elseif ($tipeTiket === 'VVIP') {
+    $harga = 400000;
+}
+
+$jumlahTiket = $pemesanan[0]["jumlah_tiket"];
+$totalHarga = $jumlahTiket * $harga;
+
+// Memasukkan data ke tabel pembayaran
+if(isset($_POST['bayar'])) {
+    $metodePembayaran = $_POST["metode-pembayaran"];
+    $nopol = $_POST["nopol"];
+    $totalHarga = $_POST["total-harga"];
+    $pemesananId = $_POST["pesanan-id"];
+
+    $pembayaran = "INSERT INTO pembayaran VALUES (NULL, '$metodePembayaran', '$nopol', '$totalHarga', '$pemesananId')";
+
+    if(mysqli_query($conn, $pembayaran)) {
+        echo "<script>alert('Data berhasil ditambahkan');</script>";
+        header("Location: cek_pembayaran.php");
+        exit();
+    } else {
+        echo "<script>alert('Data Gagal ditambahkan');</script>";
+    }
+
 }
 
 
@@ -89,13 +143,10 @@ if (empty($_SESSION["user"])) {
                     <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="theme-icon me-3">🌙</span>
-                <?php if(empty($_SESSION["user"])) : ?>
-                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
-                <?php elseif(!empty($_SESSION["user"])) : ?>
+                <?php if(!empty($_SESSION["user"])) : ?>
                     <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span>Hallow <?= $_SESSION["user"] ?></span>
                             </button>
@@ -117,17 +168,43 @@ if (empty($_SESSION["user"])) {
             <div class="col-md-6">
                 <div class="card card-custom p-3">
                     <h5 class="card-title">Detail pembayaran</h5>
+                <?php foreach($pemesanan as $row) : ?>
                     <div class="payment-detail">
                         <p>Nama <span>Dicky Prasetyo</span></p>
-                        <p>Tgl booking <span>2024/11/25</span></p>
-                        <p>Tipe Tiket <span>VVIP</span></p>
-                        <p>Harga Tiket <span>Rp 400.000</span></p>
+                        <p>Tgl booking <span><?= $row["waktu_transaksi"] ?></span></p>
+                        <p>Tipe Tiket <span><?= $row["tipe_tiket"] ?></span></p>
+
+                        <p>Harga Tiket <span>Rp <?= $harga ?></span></p>
                         <hr>
-                        <p>Subtotal <span>Rp 400.000</span></p>
-                        <p>Total <span>Rp 400.000</span></p>
-                        <p>Metode pembayaran <span>Dana <a href="pembayaran.php">(Ubah)</a></span></p>
+
+                        <form action="" method="post">
+                            <input type="hidden" name="pesanan-id" value="<?= $pemesananId ?> ">
+
+                            <p>Total <span>Rp <?= $totalHarga ?></span></p>
+                            <input type="hidden" name="total-harga" value="<?= $totalHarga ?>">
+
+                            <?php if($tipeTiket == "VIP" || $tipeTiket == "VVIP") : ?>
+                                <label id="nopol">Masukkan Nomer Polisi : </label>
+                                <input type="number" name="nopol" id="nopol" required>
+                            <?php elseif($tipeTiket == "Normal") : ?>
+                                <input type="hidden" name="nopol" value="0">
+                            <?php endif; ?>
+
+                            <label for="">Metode Pembayaran</label>
+                            <select name="metode-pembayaran" required>
+                                <option value="" disabled selected>Pilih Metode Pembayaran</option>
+                                <option value="dana">Dana</option>
+                                <option value="gopay">GoPay</option>
+                                <option value="bni">BNI</option>
+                                <option value="bri">BRI</option>
+                                <option value="bca">BCA</option>
+                                <option value="mandiri">MANDIRI</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-green mt-3" name="bayar">Bayar</button>
+                        </form>
                     </div>
-                    <button type="button" class="btn btn-green mt-3">Bayar</button>
+                <?php endforeach; ?>
                 </div>
             </div>
 
@@ -138,6 +215,9 @@ if (empty($_SESSION["user"])) {
                         <img src="../img/logoGili.png" alt="Logo">
                     </div>
                     <p>Setelah Anda menyelesaikan transaksi ini, metode pembayaran Anda akan didebit, dan Anda akan menerima pesan notifikasi yang mengonfirmasi penerimaan pembelian Anda.</p>
+                </div>
+                <div class="info-card">
+                    <a href="cek_pembayaran.php">Kembali</a>
                 </div>
             </div>
         </div>

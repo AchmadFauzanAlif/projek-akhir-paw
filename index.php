@@ -2,28 +2,17 @@
 include "function.php";
 session_start();
 
-// if (isset($_POST["pesan-tiket"])) {
-//     if (empty($_SESSION["user"])) {
-//         header("Location: user/login.php");
-//         exit();
-//     } else {
-//         header("Location: tiket/tiket.php");
-//         exit();
-//     }
-// }
-
 if (!empty($_SESSION['id'])) {
+    
+    // mengambil data pada tabel pelanggan
     $id = $_SESSION['id'];
     $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
 
+    // mengambil level user 
+    $_SESSION['level'] = $pelanggan['level'];
 
 }
 
-
-
-if(isset($_POST["cek-pembayaran"])) {
-    header("Location: pembayaran/cek_pembayaran.php");
-}
 
 
 ?>
@@ -61,8 +50,8 @@ if(isset($_POST["cek-pembayaran"])) {
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
 
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
@@ -71,9 +60,9 @@ if(isset($_POST["cek-pembayaran"])) {
                     </ul>
                     
                 <?php endif; ?>
+
                 <?php if (empty($_SESSION["user"])) : ?>
                     <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
-
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav ms-auto user-nav">
                         <li class="nav-item dropdown">
@@ -112,7 +101,7 @@ if(isset($_POST["cek-pembayaran"])) {
             <?php if (!empty($_SESSION["user"])) : ?>
                 <form action="" method="post">
                     <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
-                    <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Cek Pembayaran</a>
+                    <a type="submit" href="pembayaran/cek_pembayaran.php" class="btn btn-light mt-4">Cek Pembayaran</a>
                 </form>
             <?php elseif (empty($_SESSION["user"])) : ?>
                 <form action="" method="post">
