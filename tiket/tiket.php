@@ -98,7 +98,7 @@ if(isset($_POST["pesan-tiket"])) {
                                 src="../img/profil.png"
                                 alt="User Icon"
                                 class="user-icon">
-                            <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                            <span class="user-greeting">Halo, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>

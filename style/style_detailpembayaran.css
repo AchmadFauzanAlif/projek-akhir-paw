@@ -13,7 +13,7 @@ body, html {
 
 /* Navbar */
 .navbar {
-    background: linear-gradient(to right, #000000, #03019a, #2f2bfb);
+    background: linear-gradient(to right, #000000, #3533cd, #3533cd);
     color: white;
 }
 
@@ -185,15 +185,7 @@ body {
     border: none;
 }
 
-.btn-green {
-    background-color: #28a745;
-    color: white;
-    border: none;
-}
 
-.btn-green:hover {
-    background-color: #218838;
-}
 
 .payment-icons img {
     width: 50px;
@@ -220,6 +212,118 @@ body {
     border-radius: 5px;
     background-color: 00308e;
 }
+.content-section {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.card-custom {
+    background: linear-gradient(to bottom, #000000, #3533cd, #3533cd);
+    color: white;
+    border: none;
+}
+
+.kembali {
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(168, 42, 42);
+    margin-bottom: 30px;
+    margin-right: 1500px;
+}
+
+.kembali:hover {
+    background-color: rgb(255, 0, 0);
+}
+.btn-green {
+    background-color: #48d602;
+    color: white;
+    border: none;
+}
+
+.btn-green:hover {
+    background-color: #218838;
+}
+
+.logo-pembayaran {
+    display: flex;
+    justify-content: center; /* Logo berada di tengah secara horizontal */
+    gap: 10px; /* Jarak antar logo */
+    margin-top: 15px;
+}
+
+.logo-pembayaran img {
+    width: 100px; /* Ubah ukuran logo */
+    height: 50px; /* Pastikan gambar berbentuk kotak */
+    border-radius: 10px; /* Menambahkan border-radius */
+    object-fit: cover; /* Untuk memastikan gambar tidak terdistorsi */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tambahkan efek bayangan */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Efek saat hover */
+    margin-bottom: 20px;
+}
+
+.logo-pembayaran img:hover {
+    transform: scale(1.1); /* Sedikit memperbesar logo saat hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Efek bayangan lebih kuat saat hover */
+}
+
+.info-card {
+    background: linear-gradient(to right, #000000, #3533cd, #3533cd);
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.logo-gili {
+    width: 60px;
+    margin: 0 auto 10px;
+}
+
+.info-card img {
+    display: block;
+    width: 50px;
+}
+
+.info-card p {
+    margin-top: 10px;
+}
+
+.payment-detail {
+    font-size: 16px;
+}
+
+.payment-detail span {
+    float: right;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.table td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color:#495057; 
+    color: white;
+    text-align: center  ;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+.judul-metode-pembayaran {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
 @media (max-width: 768px) {
     .hero-section, .content-section {
         height: auto;
