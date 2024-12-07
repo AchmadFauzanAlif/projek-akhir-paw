@@ -4,18 +4,20 @@ if (isset($_POST["username"])) {
     include '../db.php';
 
     $username = $_POST['username'];
-    $password = md5($_POST["password"]);
+    $password = $_POST["password"];
 
     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
 
     if (mysqli_num_rows($result) > 0) {
+        // mengabil data user 
         $user = mysqli_fetch_assoc($result);
         $_SESSION['user'] = $user['username'];
         $_SESSION['id'] = $user['id'];
         header('Location: ../index.php');
         exit;
+
     } else {
         $error = "Username atau password salah!";
     }

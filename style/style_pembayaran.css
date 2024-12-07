@@ -1,12 +1,20 @@
 body, html {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%;
     box-sizing: border-box;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), #00000080), url('../img/backgroundGili.png'); /* Ganti dengan path file background */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Agar background tetap */
+    min-height: 100%; /* Pastikan mengisi seluruh layar */
 }
 
 /* Navbar */
 .navbar {
     background: linear-gradient(to right, #000000, #03019a, #2f2bfb);
+    color: white;
 }
 
 /* Navbar Links Centered */
@@ -119,9 +127,6 @@ body, html {
     color: #c82333;
 }
 
-
-
-
 /* Hero Section Styling */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.5), #00000080), 
@@ -159,6 +164,62 @@ body, html {
     color: rgb(0, 119, 255); 
 }
 
+body {
+    background: url('../img/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+.navbar {
+    background-color: #2d2d96 !important;
+}
+
+.hero-section {
+    padding-top: 100px;
+    text-align: center;
+}
+
+.card-custom {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+}
+
+.btn-green {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-green:hover {
+    background-color: #218838;
+}
+
+.payment-icons img {
+    width: 50px;
+    height: 35px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.theme-icon {
+    cursor: pointer;
+}
+
+.detail-pembayaran {
+    padding: 5px;
+    margin-left: 10px;
+    margin-bottom: 100px;
+    margin-right: 300px;
+    border-radius: 5px;
+    background-color: 00308e;
+}
+
+.info-pembayaran {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: 00308e;
+}
 @media (max-width: 768px) {
     .hero-section, .content-section {
         height: auto;

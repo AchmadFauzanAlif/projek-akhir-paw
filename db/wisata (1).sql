@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2024 at 02:47 PM
+-- Generation Time: Dec 04, 2024 at 05:36 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.13
 
@@ -42,7 +42,8 @@ CREATE TABLE `pelanggan` (
 
 INSERT INTO `pelanggan` (`id`, `user_id`, `nama`, `jenis_kelamin`, `telp`, `alamat`) VALUES
 (6, 1, 'dicky pras', 'L', '081234567891', 'Surabaya'),
-(7, 2, 'Rafli', 'L', '08123456788', 'Bangkalan');
+(7, 2, 'Rafli', 'L', '08123456788', 'Bangkalan'),
+(8, 5, 'Fitrah', 'L', '085924854545', 'Sumenep');
 
 -- --------------------------------------------------------
 
@@ -52,11 +53,18 @@ INSERT INTO `pelanggan` (`id`, `user_id`, `nama`, `jenis_kelamin`, `telp`, `alam
 
 CREATE TABLE `pembayaran` (
   `id` int NOT NULL,
-  `pembarayan` enum('Cash','Mobile Bank','E-Wallet','') COLLATE utf8mb4_general_ci NOT NULL,
+  `pembarayan` enum('dana','gopay','bni','bri','bca','mandiri') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `nopol_kendaraan` int NOT NULL,
   `total_harga` int NOT NULL,
   `pemesanan_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pembayaran`
+--
+
+INSERT INTO `pembayaran` (`id`, `pembarayan`, `nopol_kendaraan`, `total_harga`, `pemesanan_id`) VALUES
+(1, 'bca', 0, 110000, 3);
 
 -- --------------------------------------------------------
 
@@ -68,11 +76,21 @@ CREATE TABLE `pemesanan` (
   `id` int NOT NULL,
   `jumlah_tiket` int NOT NULL,
   `waktu_transaksi` date NOT NULL,
-  `telp` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipe_tiket` enum('Normal','VIP','VVIP','') COLLATE utf8mb4_general_ci NOT NULL,
+  `telp` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipe_tiket` enum('Normal','VIP','VVIP','') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pelanggan_id` int NOT NULL,
-  `status_pembayaran` enum('Pending','Sukses') COLLATE utf8mb4_general_ci DEFAULT 'Pending'
+  `status_pembayaran` enum('Pending','Sukses') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pemesanan`
+--
+
+INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `telp`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
+(3, 1, '2024-12-04', '085924854545', 'Normal', 6, 'Pending'),
+(4, 5, '2024-12-04', '085924854545', 'Normal', 6, 'Pending'),
+(5, 5, '2024-12-04', '085924854545', 'VIP', 6, 'Pending'),
+(6, 4, '2024-12-05', '085924854545', 'VVIP', 6, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -119,7 +137,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `level`) VALUES
 (1, 'dicky', 'password', 2),
-(2, 'rafli', 'password', 2);
+(2, 'rafli', 'password', 2),
+(5, 'fitrah', '5f4dcc3b5aa765d61d8327deb882cf99', 2);
 
 --
 -- Indexes for dumped tables
@@ -174,19 +193,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `status pemesanan`
@@ -204,7 +223,7 @@ ALTER TABLE `transaksi_detail`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
