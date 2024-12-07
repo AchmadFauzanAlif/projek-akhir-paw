@@ -10,7 +10,7 @@ if (empty($_SESSION["user"])) {
 }
 
 // filter user
-if($_SESSION['level'] == '1') {
+if ($_SESSION['level'] == '1') {
     header("Location: ../index.php");
     exit();
 }
@@ -57,36 +57,49 @@ $i = 1;
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
                 <img src="../img/logoGili.png" alt="Gili Labak Logo">
+                <a class="navbar-brand" href="index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="#">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
+                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                        <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
+                    <?php endif; ?>
                 </ul>
-                <div class="d-flex align-items-center">
-                    <span class="theme-icon me-3">🌙</span>
-                <?php if(empty($_SESSION["user"])) : ?>
-                    <a href="user/login.php" class="btn btn-outline-light">Login</a>
-                <?php elseif(!empty($_SESSION["user"])) : ?>
-                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Hallow <?= $_SESSION["user"] ?></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item text-danger" href="../logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
-                                </li>
-                            </ul>
-                <?php endif; ?>
-                </div>
+                <ul class="navbar-nav ms-auto user-nav">
+                    <li class="nav-item dropdown">
+                        <button
+                            class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img
+                                src="../img/profil.png"
+                                alt="User Icon"
+                                class="user-icon">
+                            <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a
+                                    class="dropdown-item text-danger logout-link"
+                                    href="../logout.php"
+                                    onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -94,7 +107,7 @@ $i = 1;
     <div class="status-container">
         <h2>Status Pemesanan</h2>
         <div class="table-container">
-            <table>
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -108,7 +121,7 @@ $i = 1;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($pemesanan as $row): ?>
+                    <?php foreach ($pemesanan as $row): ?>
                         <tr>
                             <td><?= $i ?></td>
                             <td><?= $row["nama"] ?></td>
@@ -125,11 +138,9 @@ $i = 1;
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            
         </div>
-        <div>
-            <a href="../index.php" class="btn">Kembali</a>
-        </div>
+        <button name="kembali" onclick="location.href='../index.php'" class="mt-3 btn btn-secondary">Kembali</button>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

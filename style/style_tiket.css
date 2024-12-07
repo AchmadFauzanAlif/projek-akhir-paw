@@ -14,7 +14,7 @@ body {
 }
 
 .navbar {
-    background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+    background: linear-gradient(to right, #000000, #03019a, #2f2bfb);
     color: white;
     
 }
@@ -179,9 +179,10 @@ body {
 }
 
 .ticket-card {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
+    background-color: #001f3f;
     border-radius: 10px;
-    color: black;
+    color: whitesmoke;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     flex: 1;
@@ -196,6 +197,7 @@ body {
 .container ticket-section{
     display: flex;
     margin-top: 100px;
+    
     
 }
 
@@ -227,8 +229,9 @@ body {
 }
 
 .user-profile {
-    background-color: #ffffff;
-    color: black;
+    /* background-color: #ffffff; */
+    background-color: #001f3f;
+    color: whitesmoke;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -286,7 +289,8 @@ body {
     font-size: 1.5rem;
 }
 form {
-    background: white;
+    /* background: white; */
+    background-color: #053361;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

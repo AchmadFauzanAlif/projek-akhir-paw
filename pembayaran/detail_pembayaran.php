@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include "../function.php";
 include "../db.php";
@@ -10,17 +10,17 @@ if (empty($_SESSION["user"])) {
 }
 
 // filter user
-if($_SESSION['level'] == '1') {
+if ($_SESSION['level'] == '1') {
     header("Location: ../index.php");
     exit();
 }
 
 // filter tidak boleh masuk lewat link / jika tidak mengirimkan id pemesanan tidak boleh masuk
 $pemesananId = $_GET["id"];
-if(empty($pemesananId)) {
+if (empty($pemesananId)) {
     header("Location: cek_pembayaran.php");
     exit();
-} 
+}
 
 // menampilkan data pemesanan
 $pemesanan = query("SELECT * FROM pemesanan WHERE id = $pemesananId");
@@ -31,7 +31,7 @@ $pemesanan = query("SELECT * FROM pemesanan WHERE id = $pemesananId");
 $tipeTiket = $pemesanan[0]["tipe_tiket"];
 
 $harga = 0;
-if($tipeTiket === 'Normal') {
+if ($tipeTiket === 'Normal') {
     $harga = 110000;
 } elseif ($tipeTiket === "VIP") {
     $harga = 250000;
@@ -43,7 +43,7 @@ $jumlahTiket = $pemesanan[0]["jumlah_tiket"];
 $totalHarga = $jumlahTiket * $harga;
 
 // Memasukkan data ke tabel pembayaran
-if(isset($_POST['bayar'])) {
+if (isset($_POST['bayar'])) {
     $metodePembayaran = $_POST["metode-pembayaran"];
     $nopol = $_POST["nopol"];
     $totalHarga = $_POST["total-harga"];
@@ -51,14 +51,13 @@ if(isset($_POST['bayar'])) {
 
     $pembayaran = "INSERT INTO pembayaran VALUES (NULL, '$metodePembayaran', '$nopol', '$totalHarga', '$pemesananId')";
 
-    if(mysqli_query($conn, $pembayaran)) {
+    if (mysqli_query($conn, $pembayaran)) {
         echo "<script>alert('Data berhasil ditambahkan');</script>";
         header("Location: cek_pembayaran.php");
         exit();
     } else {
         echo "<script>alert('Data Gagal ditambahkan');</script>";
     }
-
 }
 
 
@@ -71,140 +70,141 @@ if(isset($_POST['bayar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gili Labak</title>
-    <link href="../style/style.css" rel="stylesheet">
+    <!-- <link href="../style/style.css" rel="stylesheet"> -->
     <link rel="icon" type="image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .content-section {
-            margin-top: 100px;
-            text-align: center;
-        }
-
-        .card-custom {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            border: none;
-        }
-
-        .btn-green {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-
-        .btn-green:hover {
-            background-color: #218838;
-        }
-
-        .info-card {
-            background-color: #3a3a85;
-            padding: 20px;
-            border-radius: 8px;
-            color: #fff;
-        }
-
-        .logo-gili {
-            width: 60px;
-            margin: 0 auto 10px;
-        }
-
-        .info-card img {
-            display: block;
-            width: 50px;
-        }
-
-        .info-card p {
-            margin-top: 10px;
-        }
-
-        .payment-detail {
-            font-size: 16px;
-        }
-
-        .payment-detail span {
-            float: right;
-        }
-    </style>
+    <link rel="stylesheet" href="../style/style_detailpembayaran.css">
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
-            <div class="d-flex align-items-center">
-                <img src="../img/logoGili.png" alt="Logo" width="40" height="40" class="me-2">
+            <div class="logo">
+                <img src="../img/logoGili.png" alt="Gili Labak Logo">
+                <a class="navbar-brand" href="index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../tiket/tiket.php">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="#">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
+                    <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                        <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
+                    <?php endif; ?>
                 </ul>
-                <div class="d-flex align-items-center">
-                    <span class="theme-icon me-3">🌙</span>
-                <?php if(!empty($_SESSION["user"])) : ?>
-                    <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>Hallow <?= $_SESSION["user"] ?></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item text-danger" href="../logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</a>
-                                </li>
-                            </ul>
-                <?php endif; ?>
-                </div>
+                <ul class="navbar-nav ms-auto user-nav">
+                    <li class="nav-item dropdown">
+                        <button
+                            class="btn btn-dark dropdown-toggle user-dropdown-btn"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <img
+                                src="../img/profil.png"
+                                alt="User Icon"
+                                class="user-icon">
+                            <span class="user-greeting">Halo, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a
+                                    class="dropdown-item text-danger logout-link"
+                                    href="../logout.php"
+                                    onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
 
     <!-- Content Section -->
     <div class="content-section container">
+    <a href="cek_pembayaran.php"><button class="kembali">Cek Pembayaran</button></a>
         <div class="row">
             <!-- Payment Details -->
             <div class="col-md-6">
                 <div class="card card-custom p-3">
-                    <h5 class="card-title">Detail pembayaran</h5>
-                <?php foreach($pemesanan as $row) : ?>
-                    <div class="payment-detail">
-                        <p>Nama <span>Dicky Prasetyo</span></p>
-                        <p>Tgl booking <span><?= $row["waktu_transaksi"] ?></span></p>
-                        <p>Tipe Tiket <span><?= $row["tipe_tiket"] ?></span></p>
+                    <h5 class="card-title">Detail Pembayaran</h5>
+                    <?php foreach ($pemesanan as $row) : ?>
+                        <div class="payment-detail">
+                            <form action="" method="post">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Deskripsi</th>
+                                            <th scope="col">Detail</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nama</td>
+                                            <td>Dicky Prasetyo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tgl booking</td>
+                                            <td><?= $row["waktu_transaksi"] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tipe Tiket</td>
+                                            <td><?= $row["tipe_tiket"] ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Harga Tiket</td>
+                                            <td>Rp <?= number_format($harga, 0, ',', '.') ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total</td>
+                                            <td>Rp <?= number_format($totalHarga, 0, ',', '.') ?>
+                                                <input type="hidden" name="total-harga" value="<?= $totalHarga ?>">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="hidden" name="pesanan-id" value="<?= $pemesananId ?>">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
-                        <p>Harga Tiket <span>Rp <?= $harga ?></span></p>
-                        <hr>
+                                <?php if ($tipeTiket == "VIP" || $tipeTiket == "VVIP") : ?>
+                                    <div class="mb-3">
+                                        <label for="nopol">Masukkan Nomer Polisi:</label>
+                                        <input type="number" name="nopol" id="nopol" class="form-control" required>
+                                    </div>
+                                <?php else : ?>
+                                    <input type="hidden" name="nopol" value="0">
+                                <?php endif; ?>
 
-                        <form action="" method="post">
-                            <input type="hidden" name="pesanan-id" value="<?= $pemesananId ?> ">
-
-                            <p>Total <span>Rp <?= $totalHarga ?></span></p>
-                            <input type="hidden" name="total-harga" value="<?= $totalHarga ?>">
-
-                            <?php if($tipeTiket == "VIP" || $tipeTiket == "VVIP") : ?>
-                                <label id="nopol">Masukkan Nomer Polisi : </label>
-                                <input type="number" name="nopol" id="nopol" required>
-                            <?php elseif($tipeTiket == "Normal") : ?>
-                                <input type="hidden" name="nopol" value="0">
-                            <?php endif; ?>
-
-                            <label for="">Metode Pembayaran</label>
-                            <select name="metode-pembayaran" required>
-                                <option value="" disabled selected>Pilih Metode Pembayaran</option>
-                                <option value="dana">Dana</option>
-                                <option value="gopay">GoPay</option>
-                                <option value="bni">BNI</option>
-                                <option value="bri">BRI</option>
-                                <option value="bca">BCA</option>
-                                <option value="mandiri">MANDIRI</option>
-                            </select>
-
-                            <button type="submit" class="btn btn-green mt-3" name="bayar">Bayar</button>
-                        </form>
-                    </div>
-                <?php endforeach; ?>
+                                <div class="mb-3">
+                                    <label for="metode-pembayaran" class="judul-metode-pembayaran">Metode Pembayaran</label>
+                                    <div class="logo-pembayaran">
+                                            <img src="../img/logo bank.jpeg" alt="logo">
+                                            <img src="../img/dana logo.jpg" alt="logo">
+                                            <img src="../img/logo gopay.jpg" alt="logo">
+                                    </div>
+                                    <select name="metode-pembayaran" class="form-select" required>
+                                        <option value="" disabled selected>Pilih Metode Pembayaran</option>
+                                        <option value="dana">Dana</option>
+                                        <option value="gopay">GoPay</option>
+                                        <option value="bni">BNI</option>
+                                        <option value="bri">BRI</option>
+                                        <option value="bca">BCA</option>
+                                        <option value="mandiri">MANDIRI</option>
+                                    </select>
+                                </div>
+                                <div class="mt-3 text-end">
+                                    <button type="submit" class="btn btn-green" name="bayar">Bayar</button>
+                                </div>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -215,9 +215,6 @@ if(isset($_POST['bayar'])) {
                         <img src="../img/logoGili.png" alt="Logo">
                     </div>
                     <p>Setelah Anda menyelesaikan transaksi ini, metode pembayaran Anda akan didebit, dan Anda akan menerima pesan notifikasi yang mengonfirmasi penerimaan pembelian Anda.</p>
-                </div>
-                <div class="info-card">
-                    <a href="cek_pembayaran.php">Kembali</a>
                 </div>
             </div>
         </div>
