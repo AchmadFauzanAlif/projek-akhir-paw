@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #000; /* Background hitam untuk konsistensi */
+}
+
+.ticket {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px dashed #ffffff; /* Border putih */
+    background: linear-gradient(to bottom, #000000, #03019a, #2f2bfb); /* Gradien */
+    color: white;
+}
+
+.ticket h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ticket .qr-code {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.ticket p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+@media print {
+    body {
+        margin: 0;
+        background-color: #000;
+        -webkit-print-color-adjust: exact; /* Pastikan warna background tetap tercetak */
+        color-adjust: exact; /* Untuk browser modern */
+    }
+
+    .ticket {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px dashed #ffffff;
+        background: linear-gradient(to bottom, #000000, #03019a, #2f2bfb); /* Gradien tetap */
+    }
+
+    .ticket h3 {
+        font-size: 18px;
+    }
+
+    .ticket p {
+        font-size: 14px;
+    }
+
+    .qr-code img {
+        width: 150px; /* Ukuran QR Code */
+        height: auto;
+    }
+
+    @page {
+        margin: 0; /* Hilangkan margin halaman */
+    }
+}
