@@ -72,9 +72,12 @@ $i = 1;
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
                     <li class="nav-item"><a type="submit" class="nav-link" href="#">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
+
+                    <!-- Sepertinya tidak berguna -->
                     <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
                         <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
                     <?php endif; ?>
+
                 </ul>
                 <ul class="navbar-nav ms-auto user-nav">
                     <li class="nav-item dropdown">
@@ -129,10 +132,20 @@ $i = 1;
                             <td><?= $row["waktu_transaksi"] ?></td>
                             <td><?= $row["telp"] ?></td>
                             <td><?= $row["tipe_tiket"] ?></td>
+
+                            
                             <td><?= $row["status_pembayaran"] ?></td>
+
+                            <?php if($row["status_pembayaran"] == 'Pending') : ?>
                             <td>
                                 <a href="detail_pembayaran.php?id=<?php echo $row["id"] ?>">Bayar</a>
                             </td>
+                            <?php elseif($row['status_pembayaran'] == 'Sukses') : ?>
+                            <td>
+                                <a href="cetak_tiket.php?id=<?= $row["id"] ?>">Cetak</a>
+                            </td>
+                            <?php endif; ?>
+
                         </tr>
                         <?php $i += 1; ?>
                     <?php endforeach; ?>

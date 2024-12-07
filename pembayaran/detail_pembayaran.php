@@ -24,8 +24,6 @@ if (empty($pemesananId)) {
 
 // menampilkan data pemesanan
 $pemesanan = query("SELECT * FROM pemesanan WHERE id = $pemesananId");
-// var_dump($pemesanan);
-// die;
 
 // menentukan harga per 1 tiket
 $tipeTiket = $pemesanan[0]["tipe_tiket"];
@@ -49,15 +47,24 @@ if (isset($_POST['bayar'])) {
     $totalHarga = $_POST["total-harga"];
     $pemesananId = $_POST["pesanan-id"];
 
+    // Menambahkan data ke database
     $pembayaran = "INSERT INTO pembayaran VALUES (NULL, '$metodePembayaran', '$nopol', '$totalHarga', '$pemesananId')";
 
     if (mysqli_query($conn, $pembayaran)) {
-        echo "<script>alert('Data berhasil ditambahkan');</script>";
-        header("Location: cek_pembayaran.php");
-        exit();
+        // Mengupdate status pembayaran di tabel pemesanan
+        $updatePemesanan = "UPDATE pemesanan SET status_pembayaran = 'Sukses' WHERE id = $pemesananId";
+
+        if (mysqli_query($conn, $updatePemesanan)) {
+            echo "<script>alert('Pembayaran berhasil, status pembayaran telah diperbarui.');</script>";
+            header("Location: cek_pembayaran.php");
+            exit();
+        } else {
+            echo "<script>alert('Pembayaran berhasil, tetapi gagal memperbarui status pembayaran.');</script>";
+        }
     } else {
-        echo "<script>alert('Data Gagal ditambahkan');</script>";
+        echo "<script>alert('Data gagal ditambahkan ke tabel pembayaran.');</script>";
     }
+
 }
 
 
@@ -176,7 +183,7 @@ if (isset($_POST['bayar'])) {
                                 <?php if ($tipeTiket == "VIP" || $tipeTiket == "VVIP") : ?>
                                     <div class="mb-3">
                                         <label for="nopol">Masukkan Nomer Polisi:</label>
-                                        <input type="number" name="nopol" id="nopol" class="form-control" required>
+                                        <input type="text" name="nopol" id="nopol" class="form-control" required>
                                     </div>
                                 <?php else : ?>
                                     <input type="hidden" name="nopol" value="0">
