@@ -16,12 +16,24 @@ else if (empty($_GET['id'])) {
 $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tiket"];
 
 // Memasukkan data ke database 
-if(isset($_POST["detail"])) {
-    $nama = [];
-    $telp = [];
+if (isset($_POST["detail"])) {
+    $nama = $_POST["nama"];
+    $telp = $_POST["telp"];
 
-    
+    for ($i = 0; $i < $jmlhTiket; $i++) {
+        $namaSanitized = mysqli_real_escape_string($conn, $nama[$i]);
+        $telpSanitized = mysqli_real_escape_string($conn, $telp[$i]);
+
+        $query = "INSERT INTO detail_tiket (id, transaksi_id, nama_pelanggan, telp, pembayaran_id) 
+                    VALUES (NULL, '$lastId', '$namaSanitized', '$telpSanitized', 1)";
+        mysqli_query($conn, $query);
+    }
+
+    // Redirect atau tampilkan pesan sukses
+    header("Location: ../pembayaran/ cek_pembayaran.php");
+    exit();
 }
+
 
 
 ?>

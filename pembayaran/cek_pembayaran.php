@@ -15,6 +15,7 @@ if ($_SESSION['level'] == '1') {
     exit();
 }
 
+// 
 if (!empty($_SESSION['id'])) {
     $id = $_SESSION['id'];
     $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
@@ -43,8 +44,19 @@ $pemesanan = query("
         pelanggan.user_id = $id
 ");
 
+// Mengambil data di detail tiket
+// var_dump($pemesanan);
+$pemesanan[0]["id"];
+// die();
+
+$detailTiket = query("SELECT * FROM detail_tiket");
+// var_dump($detailTiket[0]);
+// die();
+
 // nomer untuk table
 $i = 1;
+
+
 ?>
 
 <!DOCTYPE html>
@@ -144,24 +156,22 @@ $i = 1;
                         </tr>
                         <!-- Kontainer untuk tabel dropdown -->
                         <tr id="dropdown-container-<?= $row['id'] ?>" style="display: none;">
-                            <td colspan="8">
-                                <div class="dropdown-table-container">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr class="thead-dropdown">
-                                                <th>No</th>
-                                                <th>Nama Pengunjung</th>
-                                                <th>Telepon</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="dropdown-table-body-<?= $row['id'] ?>">
-                                            <!-- Konten akan dimasukkan oleh JavaScript -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
+                        <td colspan="7">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Pengunjung</th>
+                                        <th>Telepon</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dropdown-table-body-<?= $row['id'] ?>">
+                                    <!-- Konten akan dimuat oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                     <?php $i++;
                     endforeach; ?>
                 </tbody>
@@ -179,34 +189,32 @@ $i = 1;
             toggleButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');
-                    const tickets = parseInt(this.getAttribute('data-tickets'), 10);
                     const container = document.getElementById(`dropdown-container-${id}`);
                     const tableBody = document.getElementById(`dropdown-table-body-${id}`);
-                    // Toggle visibilitas tabel
-                    if (container.style.display === 'none') {
-                        container.style.display = 'table-row';
-                        // Cek apakah tabel sudah memiliki data, jika tidak, tambahkan data
-                        if (tableBody.children.length === 0) {
-                            for (let i = 1; i <= tickets; i++) {
-                                const row = document.createElement('tr');
-                                row.innerHTML = `
-                                <td>${i}</td>
-                                <td>Nama Pengunjung ${i}</td>
-                                <td>085xxxxxxxxx</td>
-                                <td>
-                                    <a href="edit_pengunjung.php?id=${id}&no=${i}" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="hapus_pengunjung.php?id=${id}&no=${i}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
-                                </td>
-                            `;
-                                tableBody.appendChild(row);
-                            }
-                        }
-                    } else {
-                        container.style.display = 'none';
+                    container.style.display = container.style.display === 'none' ? 'table-row' : 'none';
+
+                    // Muat data hanya jika tabel belum dimuat sebelumnya
+                    if (tableBody.children.length === 0) {
+                        fetch(`get_detail_tiket.php?pemesanan_id=${id}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                tableBody.innerHTML = data.map((item, index) => `
+                                    <tr>
+                                        <td>${index + 1}</td>
+                                        <td>${item.nama_pelanggan}</td>
+                                        <td>${item.telp}</td>
+                                        <td>
+                                            <a href="edit_pengunjung.php?id=${item.id}" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="hapus_pengunjung.php?id=${item.id}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                                        </td>
+                                    </tr>
+                                `).join('');
+                            });
                     }
                 });
             });
         });
+
     </script>
 </body>
 </html> 

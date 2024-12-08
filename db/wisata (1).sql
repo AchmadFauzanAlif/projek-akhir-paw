@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2024 at 05:36 PM
+-- Generation Time: Dec 08, 2024 at 06:47 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.13
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `wisata`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_tiket`
+--
+
+CREATE TABLE `detail_tiket` (
+  `id` int NOT NULL,
+  `transaksi_id` int NOT NULL,
+  `nama_pelanggan` varchar(255) NOT NULL,
+  `telp` varchar(255) NOT NULL,
+  `pembayaran_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `detail_tiket`
+--
+
+INSERT INTO `detail_tiket` (`id`, `transaksi_id`, `nama_pelanggan`, `telp`, `pembayaran_id`) VALUES
+(1, 16, 'wahyudi', '9999', 1),
+(2, 16, 'rafli', '8888', 1);
 
 -- --------------------------------------------------------
 
@@ -54,7 +76,7 @@ INSERT INTO `pelanggan` (`id`, `user_id`, `nama`, `jenis_kelamin`, `telp`, `alam
 CREATE TABLE `pembayaran` (
   `id` int NOT NULL,
   `pembarayan` enum('dana','gopay','bni','bri','bca','mandiri') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nopol_kendaraan` int NOT NULL,
+  `nopol_kendaraan` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `total_harga` int NOT NULL,
   `pemesanan_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -64,7 +86,8 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id`, `pembarayan`, `nopol_kendaraan`, `total_harga`, `pemesanan_id`) VALUES
-(1, 'bca', 0, 110000, 3);
+(4, 'dana', '0', 110000, 3),
+(5, 'bri', 'M 3793 TM, M 3639 TM', 1250000, 5);
 
 -- --------------------------------------------------------
 
@@ -76,7 +99,6 @@ CREATE TABLE `pemesanan` (
   `id` int NOT NULL,
   `jumlah_tiket` int NOT NULL,
   `waktu_transaksi` date NOT NULL,
-  `telp` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tipe_tiket` enum('Normal','VIP','VVIP','') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pelanggan_id` int NOT NULL,
   `status_pembayaran` enum('Pending','Sukses') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending'
@@ -86,11 +108,14 @@ CREATE TABLE `pemesanan` (
 -- Dumping data for table `pemesanan`
 --
 
-INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `telp`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
-(3, 1, '2024-12-04', '085924854545', 'Normal', 6, 'Pending'),
-(4, 5, '2024-12-04', '085924854545', 'Normal', 6, 'Pending'),
-(5, 5, '2024-12-04', '085924854545', 'VIP', 6, 'Pending'),
-(6, 4, '2024-12-05', '085924854545', 'VVIP', 6, 'Pending');
+INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
+(3, 1, '2024-12-04', 'Normal', 6, 'Sukses'),
+(4, 5, '2024-12-04', 'Normal', 6, 'Pending'),
+(5, 5, '2024-12-04', 'VIP', 6, 'Sukses'),
+(6, 4, '2024-12-05', 'VVIP', 6, 'Pending'),
+(14, 2, '2024-01-10', 'VIP', 7, 'Sukses'),
+(15, 3, '2024-02-14', 'Normal', 6, 'Sukses'),
+(16, 2, '2024-12-09', 'VIP', 6, 'Pending');
 
 -- --------------------------------------------------------
 
@@ -104,18 +129,6 @@ CREATE TABLE `status pemesanan` (
   `telp` int NOT NULL,
   `tanggal_booking` date NOT NULL,
   `tipe_tiket` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaksi_detail`
---
-
-CREATE TABLE `transaksi_detail` (
-  `id` int NOT NULL,
-  `transaksi_id` int NOT NULL,
-  `pembayaran_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -138,11 +151,19 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `username`, `password`, `level`) VALUES
 (1, 'dicky', 'password', 2),
 (2, 'rafli', 'password', 2),
-(5, 'fitrah', '5f4dcc3b5aa765d61d8327deb882cf99', 2);
+(5, 'fitrah', 'password', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `detail_tiket`
+--
+ALTER TABLE `detail_tiket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `transaksi_id` (`transaksi_id`),
+  ADD KEY `pembayaran_id` (`pembayaran_id`);
 
 --
 -- Indexes for table `pelanggan`
@@ -172,14 +193,6 @@ ALTER TABLE `status pemesanan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `transaksi_detail`
---
-ALTER TABLE `transaksi_detail`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `transaksi_id` (`transaksi_id`),
-  ADD KEY `pembayaran_id` (`pembayaran_id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -188,6 +201,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `detail_tiket`
+--
+ALTER TABLE `detail_tiket`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
@@ -199,24 +218,18 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `status pemesanan`
 --
 ALTER TABLE `status pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transaksi_detail`
---
-ALTER TABLE `transaksi_detail`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -228,6 +241,12 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `detail_tiket`
+--
+ALTER TABLE `detail_tiket`
+  ADD CONSTRAINT `detail_tiket_ibfk_2` FOREIGN KEY (`transaksi_id`) REFERENCES `pemesanan` (`id`);
 
 --
 -- Constraints for table `pelanggan`
@@ -246,13 +265,6 @@ ALTER TABLE `pembayaran`
 --
 ALTER TABLE `pemesanan`
   ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`pelanggan_id`) REFERENCES `pelanggan` (`id`);
-
---
--- Constraints for table `transaksi_detail`
---
-ALTER TABLE `transaksi_detail`
-  ADD CONSTRAINT `transaksi_detail_ibfk_2` FOREIGN KEY (`transaksi_id`) REFERENCES `pemesanan` (`id`),
-  ADD CONSTRAINT `transaksi_detail_ibfk_3` FOREIGN KEY (`pembayaran_id`) REFERENCES `pembayaran` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

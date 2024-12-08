@@ -1,27 +1,26 @@
 <?php
 session_start();
-include "../function.php";
 include "../db.php";
+include "../function.php";
+
+if (isset($_POST["login"])) {
+    if (empty($_SESSION["user"])) {
+        header("Location: user/login.php");
+    }
+    exit();
+}
+
+if (empty($_SESSION["level"])) {
+    if ($_SESSION["level"] == 2) {
+        header("Location: index.php");
+        exit();
+    }
+}
 
 $data = [];
+$chartTitle = "Statistik"; // Judul default untuk chart
 
-if (isset($_POST["harian"])) {
-    // Data Harian
-    $queryHarian = "
-        SELECT DATE(waktu_transaksi) AS tanggal, COUNT(*) AS total
-        FROM pemesanan
-        WHERE status_pembayaran = 'sukses'
-        GROUP BY DATE(waktu_transaksi)";
-        
-    $result = mysqli_query($conn, $queryHarian);
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[$row['tanggal']] = $row['total'];
-    }
-
-
-} elseif (isset($_POST["mingguan"])) {
-    // Data Mingguan (dibagi menjadi 4 grup)
+if (isset($_POST["mingguan"])) {
     $queryMingguan = "
         SELECT WEEK(waktu_transaksi, 1) AS minggu, COUNT(*) AS total
         FROM pemesanan
@@ -29,7 +28,6 @@ if (isset($_POST["harian"])) {
         GROUP BY WEEK(waktu_transaksi, 1)";
     $result = mysqli_query($conn, $queryMingguan);
 
-    // Inisialisasi array untuk menyimpan data dalam 4 grup
     $data = [
         'Minggu Pertama' => 0,
         'Minggu Kedua' => 0,
@@ -37,12 +35,9 @@ if (isset($_POST["harian"])) {
         'Minggu Keempat' => 0
     ];
 
-    // Proses data mingguan ke dalam 4 grup
     while ($row = mysqli_fetch_assoc($result)) {
         $minggu = $row['minggu'];
         $total = $row['total'];
-
-        // Tentukan grup berdasarkan nomor minggu
         if ($minggu >= 1 && $minggu <= 13) {
             $data['Minggu Pertama'] += $total;
         } elseif ($minggu >= 14 && $minggu <= 26) {
@@ -53,8 +48,8 @@ if (isset($_POST["harian"])) {
             $data['Minggu Keempat'] += $total;
         }
     }
+    $chartTitle = "Statistik Mingguan";
 } elseif (isset($_POST["bulanan"])) {
-    // Data Bulanan
     $queryBulanan = "
         SELECT MONTH(waktu_transaksi) AS bulan, COUNT(*) AS total
         FROM pemesanan
@@ -62,7 +57,6 @@ if (isset($_POST["harian"])) {
         GROUP BY MONTH(waktu_transaksi)";
     $result = mysqli_query($conn, $queryBulanan);
 
-    // Inisialisasi bulan 1-12 dengan 0
     for ($i = 1; $i <= 12; $i++) {
         $data[$i] = 0;
     }
@@ -70,8 +64,8 @@ if (isset($_POST["harian"])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $data[$row['bulan']] = $row['total'];
     }
+    $chartTitle = "Statistik Bulanan";
 } elseif (isset($_POST["tahunan"])) {
-    // Data Tahunan
     $queryTahunan = "
         SELECT YEAR(waktu_transaksi) AS tahun, COUNT(*) AS total
         FROM pemesanan
@@ -82,49 +76,145 @@ if (isset($_POST["harian"])) {
     while ($row = mysqli_fetch_assoc($result)) {
         $data[$row['tahun']] = $row['total'];
     }
+    $chartTitle = "Statistik Tahunan";
 }
-
-echo "<script>
-    const dataBulanan = " . json_encode($dataBulanan) . ";
-    const dataMingguan = " . json_encode($dataMingguan) . ";
-    const dataTahunan = " . json_encode($dataTahunan) . ";
-</script>";
-
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan</title>
+    <title>Gili Labak</title>
+    <link rel="icon" type="image/png" href="../img/logoGili.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../style/style_report.css" rel="stylesheet">
 </head>
-<body>
-    <form action="" method="post">
-        <button type="submit" name="harian">Harian</button>
-        <button type="submit" name="mingguan">Mingguan</button>
-        <button type="submit" name="bulanan">Bulanan</button>
-        <button type="submit" name="tahunan">Tahunan</button>
-    </form>
 
-    <table border="1">
-        <tr>
-            <th>Rentang</th>
-            <th>Total</th>
-        </tr>
-        <?php if (!empty($data)): ?>
-            <?php foreach ($data as $rentang => $total): ?>
-                <tr>
-                    <td><?= htmlspecialchars($rentang) ?></td>
-                    <td><?= htmlspecialchars($total) ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="2">Tidak ada data</td>
-            </tr>
-        <?php endif; ?>
-    </table>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
+        <div class="container">
+            <div class="logo">
+                <img src="../img/logoGili.png" alt="Gili Labak Logo">
+                <a class="navbar-brand" href="index.php">Gili Labak</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
+                </ul>
+                <?php if (empty($_SESSION["user"])) : ?>
+                    <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
+                <?php else : ?>
+                    <ul class="navbar-nav ms-auto user-nav">
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-dark dropdown-toggle user-dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="../img/profil.png" alt="User Icon" class="user-icon">
+                                <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a class="dropdown-item text-danger logout-link" href="logout.php" onclick="return confirm('Apakah Anda yakin ingin logout?')">
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <div class="container mt-5 pt-5"> -->
+
+        
+        <div class="hero-section">
+            <div class="section-1">
+                <div class="section-1A">
+                    <form action="" method="post" class="mb-3">
+                    <button type="submit" name="mingguan" class="btn btn-primary">Mingguan</button>
+                    <button type="submit" name="bulanan" class="btn btn-primary">Bulanan</button>
+                    <button type="submit" name="tahunan" class="btn btn-primary">Tahunan</button>
+                </form>
+                <hr>
+                <div class="table-container">
+                    <table border="1" class="data-table">
+                        <tr>
+                            <th>Rentang</th>
+                            <th>Total</th>
+                        </tr>
+                        <?php if (!empty($data)): ?>
+                            <?php foreach ($data as $rentang => $total): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($rentang) ?></td>
+                                    <td><?= htmlspecialchars($total) ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="2">Tidak ada data</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Section -->
+                    <div class="section-2">
+                        <!-- Top Section -->
+                        <div class="top-right-section">
+                            <h3><?= $chartTitle ?></h3>
+                            <!-- <h3>Statistik Pengunjung</h3> -->
+                            
+                            <canvas id="chart" width="400" height="200"></canvas>
+                            <!-- <canvas id="chartPengunjung"></canvas> -->
+                        </div>
+                        <!-- Bottom Section -->
+                        <div class="bottom-right-section">
+                            <h3>Pengumuman</h3>
+                <p>Tidak ada pengumuman baru saat ini. Tetaplah ikuti update terbaru dari kami!</p>
+            </div>
+        </div>
+    <!-- </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const dataLabels = <?= json_encode(array_keys($data)) ?>;
+        const dataValues = <?= json_encode(array_values($data)) ?>;
+
+        const ctx = document.getElementById('chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dataLabels,
+                datasets: [{
+                    label: 'Total',
+                    data: dataValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>

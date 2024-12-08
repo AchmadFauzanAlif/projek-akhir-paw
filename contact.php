@@ -56,7 +56,7 @@ if (!empty($_SESSION['id'])) {
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
-                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                            <li class="nav-item"><a class="nav-link" href="report/report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>
                     
