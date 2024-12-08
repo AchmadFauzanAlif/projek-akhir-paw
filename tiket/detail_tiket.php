@@ -45,4 +45,3 @@ $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tike
         <button type="submit">Tambahkan</button>
     </form>
 </body>
-</html>
