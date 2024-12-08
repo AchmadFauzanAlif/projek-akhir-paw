@@ -51,11 +51,15 @@ if (!empty($_SESSION['id'])) {
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+
+                        <?php if ($_SESSION["level"] == "2") : ?>
+                            <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                        <?php endif; ?>
+
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
 
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
-                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
+                            <li class="nav-item"><a class="nav-link" href=" report/report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>
                     
@@ -99,10 +103,14 @@ if (!empty($_SESSION['id'])) {
             <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
 
             <?php if (!empty($_SESSION["user"])) : ?>
+                <?php if($_SESSION["level"] == 2) : ?>
                 <form action="" method="post">
                     <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
                     <a type="submit" href="pembayaran/cek_pembayaran.php" class="btn btn-light mt-4">Cek Pembayaran</a>
                 </form>
+                <?php elseif($_SESSION["level"] == 1) : ?>
+                    <a type="submit" href="report/report.php"" class="btn btn-light mt-4">Report</a>
+                <?php endif; ?>
             <?php elseif (empty($_SESSION["user"])) : ?>
                 <form action="" method="post">
                     <a type="submit" name="pesan-tiket" href="user/login.php" class="btn btn-light mt-4">Pesan Tiket</a>

@@ -23,13 +23,20 @@ if(!empty($_SESSION["id"])) {
 } 
 
 # tentukan level user 1, 2, 3?
+if($_SESSION["level"] == 1) {
+    header("Location: ../index.php");
+    exit();
+}
+else if (empty($_SESSION["level"])) {
+    header("Location: login.php");
+    exit();
+}
 
 
 # menambahkan data tiket ke dalam database
 if (isset($_POST["pesan-tiket"])) {
     $pelangganID = $_POST["pelanggan_id"];
     $jumlahTiket = $_POST["jumlah-tiket"];
-    $telp = $_POST["nomor-telp"];
     $tanggalBoking = $_POST["tanggal-booking"];
     $tipeTiket = $_POST["tipe-tiket"];
 
@@ -37,7 +44,7 @@ if (isset($_POST["pesan-tiket"])) {
         "INSERT INTO 
             pemesanan 
         VALUES 
-            (NULL, '$jumlahTiket', '$tanggalBoking', '$telp', '$tipeTiket', '$pelangganID', 'Pending');";
+            (NULL, '$jumlahTiket', '$tanggalBoking', '$tipeTiket', '$pelangganID', 'Pending');";
 
     if (mysqli_query($conn, $tambahTiket)) {
         $lastID = mysqli_insert_id($conn);
@@ -187,9 +194,6 @@ if (isset($_POST["pesan-tiket"])) {
 
                     <label for="Nama">Jumlah Tiket: </label>
                     <input type="number" placeholder="Jumlah Tiket" name="jumlah-tiket" required>
-
-                    <label for="Nomor Telp">Nomor Telp</label>
-                    <input type="number" placeholder="Nomor Telp" name="nomor-telp" required>
 
                     <label for="date">Tgl Booking</label>
                     <input type="date" placeholder="Tgl booking" name="tanggal-booking" required>

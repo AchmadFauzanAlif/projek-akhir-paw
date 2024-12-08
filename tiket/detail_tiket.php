@@ -15,9 +15,13 @@ else if (empty($_GET['id'])) {
 // Tangkap Jumlah Tiket
 $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tiket"];
 
-// var_dump($jmlhTiket);
-// die;
+// Memasukkan data ke database 
+if(isset($_POST["detail"])) {
+    $nama = [];
+    $telp = [];
 
+    
+}
 
 
 ?>
@@ -32,7 +36,6 @@ $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tike
 </head>
 <body>
     <form action="" method="post">
-
         <?php for ($i = 1; $i <= $jmlhTiket; $i++) : ?>
             <h3>Detail Tiket <?= $i; ?></h3>
             <label for="nama-<?= $i; ?>">Nama: </label>
@@ -42,6 +45,6 @@ $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tike
             <input type="text" name="telp[]" id="telp-<?= $i; ?>" required><br>
         <?php endfor; ?>
 
-        <button type="submit">Tambahkan</button>
+        <button type="submit" name="detail">Tambahkan</button>
     </form>
 </body>

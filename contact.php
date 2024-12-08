@@ -48,7 +48,11 @@ if (!empty($_SESSION['id'])) {
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+
+                        <?php if ($_SESSION["level"] == "2") : ?>
+                            <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                        <?php endif; ?>
+
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>

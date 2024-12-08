@@ -15,6 +15,11 @@ if ($_SESSION['level'] == '1') {
     exit();
 }
 
+if (!empty($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+    $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
+}
+
 //  Mengambil data di pemesanan lalu ditambilkan ke tabel
 $id = $_SESSION['id'];
 $pelanggan = query("SELECT * FROM pelanggan WHERE user_id = $id")[0];
@@ -24,7 +29,6 @@ $pemesanan = query("
         pemesanan.id,
         pemesanan.jumlah_tiket,
         pemesanan.waktu_transaksi,
-        pemesanan.telp,
         pemesanan.tipe_tiket,
         pemesanan.pelanggan_id,
         pelanggan.nama,
@@ -70,7 +74,7 @@ $i = 1;
                 <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
-                    <li class="nav-item"><a type="submit" class="nav-link" href="#">Tiket</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="../tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
 
                 </ul>
@@ -112,7 +116,6 @@ $i = 1;
                         <th>Nama Pelanggan</th>
                         <th>Jumlah Tiket</th>
                         <th>Tgl Booking</th>
-                        <th>Telp</th>
                         <th>Tipe Tiket</th>
                         <th>Status Pembayaran</th>
                         <th>Aksi</th>
@@ -149,7 +152,6 @@ $i = 1;
 
                             </td>
                             <td><?= $row["waktu_transaksi"] ?></td>
-                            <td><?= $row["telp"] ?></td>
                             <td><?= $row["tipe_tiket"] ?></td>
 
                             
