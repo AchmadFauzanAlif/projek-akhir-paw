@@ -10,9 +10,9 @@ include "../function.php";
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $query = "SELECT p.id, p.jumlah_tiket, p.waktu_transaksi, p.tipe_tiket, pel.nama, pel.telp 
-              FROM pemesanan p
-              INNER JOIN pelanggan pel ON p.pelanggan_id = pel.id
-              WHERE p.id = $id";
+                FROM pemesanan p
+                INNER JOIN pelanggan pel ON p.pelanggan_id = pel.id
+                WHERE p.id = $id";
     $data_tiket = query($query);
 
     if (empty($data_tiket)) {
@@ -46,9 +46,12 @@ if (isset($_GET['id'])) {
         <p><strong>Jumlah Tiket:</strong> <?= $tiket['jumlah_tiket']; ?></p>
         <p><strong>Tanggal Booking:</strong> <?= $tiket['waktu_transaksi']; ?></p>
         <p><strong>Tipe Tiket:</strong> <?= $tiket['tipe_tiket']; ?></p>
+
+<!--     Diki     -->
         <div class="qr-code">
             <img src="../img/barcode.png $tiket['id']; ?>" alt="QR Code">
         </div>
+
         <p style="text-align: center;">Kode Tiket: <?= uniqid("TKT-"); ?></p>
     </div>
     <script>

@@ -26,8 +26,7 @@ if(!empty($_SESSION["id"])) {
 
 
 # menambahkan data tiket ke dalam database
-if(isset($_POST["pesan-tiket"])) {
-
+if (isset($_POST["pesan-tiket"])) {
     $pelangganID = $_POST["pelanggan_id"];
     $jumlahTiket = $_POST["jumlah-tiket"];
     $telp = $_POST["nomor-telp"];
@@ -39,16 +38,18 @@ if(isset($_POST["pesan-tiket"])) {
             pemesanan 
         VALUES 
             (NULL, '$jumlahTiket', '$tanggalBoking', '$telp', '$tipeTiket', '$pelangganID', 'Pending');";
-    
-    if(mysqli_query($conn, $tambahTiket)) {
-        header("Location: ../pembayaran/cek_pembayaran.php");
+
+    if (mysqli_query($conn, $tambahTiket)) {
+        $lastID = mysqli_insert_id($conn);
+
+        // Redirect ke halaman lain dengan membawa id tersebut
+        header("Location: detail_tiket.php?id=" . $lastID);
         exit;
-
+    } else {
+        echo "Error: " . $tambahTiket . "<br>" . mysqli_error($conn);
     }
-
-
-
 }
+
 
 ?>
 
