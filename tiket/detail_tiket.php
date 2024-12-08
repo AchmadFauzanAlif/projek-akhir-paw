@@ -28,6 +28,7 @@ $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tike
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tiket</title>
+    <link rel="stylesheet" href="../style/style_detail_tiket.css">
 </head>
 <body>
     <form action="" method="post">
@@ -44,4 +45,3 @@ $jmlhTiket = query("SELECT * FROM pemesanan WHERE id = $lastId")[0]["jumlah_tike
         <button type="submit">Tambahkan</button>
     </form>
 </body>
-</html>
