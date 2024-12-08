@@ -130,12 +130,8 @@ $i = 1;
                                 <button class="btn btn-primary toggle-table" type="button" data-id="<?= $row['id'] ?>" data-tickets="<?= $row['jumlah_tiket'] ?>">
                                     <?= $row["jumlah_tiket"] ?>
                                 </button>
-                              
                             </td>
                             <td><?= $row["waktu_transaksi"] ?></td>
-                            <!--              Diki              -->
-                            <td class="telp"><?= $row["telp"] ?></td>
-                          
                             <td><?= $row["tipe_tiket"] ?></td>
                             <td><?= $row["status_pembayaran"] ?></td>
                             <td>
