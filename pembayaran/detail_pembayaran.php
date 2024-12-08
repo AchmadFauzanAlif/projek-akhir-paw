@@ -213,6 +213,7 @@ if (isset($_POST['bayar'])) {
                         </div>
                     <?php endforeach; ?>
                 </div>
+                <br><br>
             </div>
 
             <!-- Info Section -->

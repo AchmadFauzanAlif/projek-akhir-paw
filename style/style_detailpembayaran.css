@@ -235,13 +235,13 @@ body {
 .kembali:hover {
     background-color: rgb(255, 0, 0);
 }
-.btn-green {
-    background-color: #48d602;
+.btn-bayar {
+    background-color: #3eb900;
     color: white;
     border: none;
 }
 
-.btn-green:hover {
+.btn-bayar:hover {
     background-color: #218838;
 }
 

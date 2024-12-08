@@ -72,7 +72,6 @@ $i = 1;
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
                     <li class="nav-item"><a type="submit" class="nav-link" href="#">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
-
                 </ul>
                 <ul class="navbar-nav ms-auto user-nav">
                     <li class="nav-item dropdown">
@@ -105,8 +104,8 @@ $i = 1;
     <div class="status-container">
         <h2>Status Pemesanan</h2>
         <div class="table-container">
-            <table class="table table-bordered table-striped">
-                <thead>
+            <table border="1" cellspacing="1">
+                <thead class="thead-table">
                     <tr>
                         <th>No</th>
                         <th>Nama Pelanggan</th>
@@ -124,58 +123,89 @@ $i = 1;
                             <td><?= $i ?></td>
                             <td><?= $row["nama"] ?></td>
                             <td>
-                                <button 
-                                class="btn btn-dark dropdown-toggle user-dropdown-btn"
-                                data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                                >
-                                    
+                                <!-- Tombol untuk memunculkan tabel -->
+                                <button class="btn btn-primary toggle-table" type="button" data-id="<?= $row['id'] ?>" data-tickets="<?= $row['jumlah_tiket'] ?>">
+                                    <?= $row["jumlah_tiket"] ?>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a
-                                            class="dropdown-item text-danger logout-link"
-                                            href="../logout.php"
-                                            onclick="return confirm('Apakah Anda yakin ingin logout?')">
-                                            Logout
-                                        </a>
-                                    </li>
-                                    <li><a href="#">Tes</a></li>
-                                    <li><a href="#">Tes</a></li>
-                                </ul>
-                                <?= $row["jumlah_tiket"] ?>
-                                <ul class="dropdown">
-                                </ul>
-
+                              
                             </td>
                             <td><?= $row["waktu_transaksi"] ?></td>
-                            <td><?= $row["telp"] ?></td>
+                            <td class="telp"><?= $row["telp"] ?></td>
                             <td><?= $row["tipe_tiket"] ?></td>
-
-                            
                             <td><?= $row["status_pembayaran"] ?></td>
-
-                            <?php if($row["status_pembayaran"] == 'Pending') : ?>
                             <td>
-                                <a href="detail_pembayaran.php?id=<?php echo $row["id"] ?>">Bayar</a>
+                                <?php if ($row["status_pembayaran"] == 'Pending') : ?>
+                                    <a href="detail_pembayaran.php?id=<?= $row['id'] ?>"><button class="btn-bayar">Bayar</button></a>
+                                <?php elseif ($row['status_pembayaran'] == 'Sukses') : ?>
+                                    <a href="cetak_tiket.php?id=<?= $row['id'] ?>"><button class="btn-cetak">Cetak</button></a>
+                                <?php endif; ?>
                             </td>
-                            <?php elseif($row['status_pembayaran'] == 'Sukses') : ?>
-                            <td>
-                                <a href="cetak_tiket.php?id=<?= $row["id"] ?>">Cetak</a>
-                            </td>
-                            <?php endif; ?>
-
                         </tr>
-                        <?php $i += 1; ?>
-                    <?php endforeach; ?>
+                        <!-- Kontainer untuk tabel dropdown -->
+                        <tr id="dropdown-container-<?= $row['id'] ?>" style="display: none;">
+                            <td colspan="8">
+                                <div class="dropdown-table-container">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="thead-dropdown">
+                                                <th>No</th>
+                                                <th>Nama Pengunjung</th>
+                                                <th>Telepon</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dropdown-table-body-<?= $row['id'] ?>">
+                                            <!-- Konten akan dimasukkan oleh JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php $i++;
+                    endforeach; ?>
                 </tbody>
             </table>
         </div>
-        <button name="kembali" onclick="location.href='../index.php'" class="mt-3 btn btn-secondary">Kembali</button>
-
+        <div>
+        <a href="../index.php"><button class="btn-kembali">Kembali</button></a>
+        </div>
     </div>
-
+    <br><br>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-table');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const tickets = parseInt(this.getAttribute('data-tickets'), 10);
+                    const container = document.getElementById(`dropdown-container-${id}`);
+                    const tableBody = document.getElementById(`dropdown-table-body-${id}`);
+                    // Toggle visibilitas tabel
+                    if (container.style.display === 'none') {
+                        container.style.display = 'table-row';
+                        // Cek apakah tabel sudah memiliki data, jika tidak, tambahkan data
+                        if (tableBody.children.length === 0) {
+                            for (let i = 1; i <= tickets; i++) {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                <td>${i}</td>
+                                <td>Nama Pengunjung ${i}</td>
+                                <td>085xxxxxxxxx</td>
+                                <td>
+                                    <a href="edit_pengunjung.php?id=${id}&no=${i}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="hapus_pengunjung.php?id=${id}&no=${i}" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</a>
+                                </td>
+                            `;
+                                tableBody.appendChild(row);
+                            }
+                        }
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
-</html>
+</html> 

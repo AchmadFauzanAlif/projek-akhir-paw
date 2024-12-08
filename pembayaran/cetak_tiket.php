@@ -29,6 +29,7 @@ if (isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,21 +37,26 @@ if (isset($_GET['id'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../style/style_cetak_tiket.css">
 </head>
+
 <body>
     <div class="ticket">
-        <h3><img src="../img/logoGili.png" alt="logoGili" height="40px">Wisata Gili Labak - Tiket Pemesanan</h3>
+        <h3><img src="../img/logoGili.png" alt="logoGili" height="40px">Wisata Gili Labak</h3>
         <p><strong>Nama:</strong> <?= $tiket['nama']; ?></p>
         <p><strong>No. Telepon:</strong> <?= $tiket['telp']; ?></p>
         <p><strong>Jumlah Tiket:</strong> <?= $tiket['jumlah_tiket']; ?></p>
         <p><strong>Tanggal Booking:</strong> <?= $tiket['waktu_transaksi']; ?></p>
         <p><strong>Tipe Tiket:</strong> <?= $tiket['tipe_tiket']; ?></p>
-        <!-- <div class="qr-code">
-            <img src="generate_qr.php?data=<?= $tiket['id']; ?>" alt="QR Code">
-        </div> -->
+
+<!--     Diki     -->
+        <div class="qr-code">
+            <img src="../img/barcode.png $tiket['id']; ?>" alt="QR Code">
+        </div>
+
         <p style="text-align: center;">Kode Tiket: <?= uniqid("TKT-"); ?></p>
     </div>
     <script>
         window.print();
     </script>
 </body>
+
 </html>
