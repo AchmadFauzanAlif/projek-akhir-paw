@@ -1,7 +1,7 @@
 <?php
 session_start();
-
 include "function.php";
+include "db.php";
 
 if (!empty($_SESSION['id'])) {
     $id = $_SESSION['id'];
@@ -9,6 +9,35 @@ if (!empty($_SESSION['id'])) {
 
     
 }
+
+if(isset($_POST["masukan"])) {
+    $nama = $_POST["nama"];
+    $telp = $_POST["telepon"];
+    $kategori = $_POST["kategori"];
+    $email = $_POST["email"];
+    $pesan = $_POST["pesan"];
+
+    if(empty($nama)) {
+        $nama = NULL;
+    } 
+    
+    if (empty($telp)) {
+        $telp = NULL;
+    }
+
+    $tambahPesan = "INSERT INTO `kontak`(`nama`, `telp`, `kategori`, `email`, `pesan`) VALUES ('$nama', " . ($telp === NULL ? "NULL" : "'$telp'") . ", '$kategori', '$email', '$pesan');";
+
+
+    if (mysqli_query($conn, $tambahPesan)) {
+        echo "<script>alert('Pesan tersampaikan')</script>";
+        header("Location: index.php");
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($conn); // Tambahkan ini untuk debugging
+    }
+
+};
+
 
 ?>
 
@@ -102,23 +131,23 @@ if (!empty($_SESSION['id'])) {
                 <p>Informasi kontak admin Tiket Wisata Sumenep dan form feedback yang dapat dilihat oleh admin</p>
                 <br>
                 <div class="contact-content">
-                    <!-- Form Feedback -->
                     <div class="form-section">
                         <h3>Form Feedback</h3>
-                        <form action="feedback.php" method="POST">
+                        <form action="" method="POST">
                             <div class="form-group">
                                 <label for="nama">Nama Lengkap</label>
-                                <input type="text" id="nama" name="nama" placeholder="Nama Anda" required>
+                                <input type="text" id="nama" name="nama" placeholder="Nama Anda" >
                             </div>
                             <div class="form-group">
                                 <label for="telepon">No.Telepon</label>
-                                <input type="text" id="telepon" name="telepon" placeholder="Nomor Telepon" required>
+                                <input type="text" id="telepon" name="telepon" placeholder="Nomor Telepon" >
                             </div>
                             <div class="form-group">
-                                <label for="kategori">Kategori</label>
-                                <select id="kategori" name="kategori">
+                                <label for="kategori">Kategori Masukan</label>
+                                <select id="kategori" name="kategori" required>
+                                    <option value="" disabled selected>Pilih Masukan</option>
                                     <option value="pertanyaan">Pertanyaan</option>
-                                    <option value="keluhan">Keluhan</option>
+                                    <option value="kritik">Kritik</option>
                                     <option value="saran">Saran</option>
                                 </select>
                             </div>
@@ -128,9 +157,9 @@ if (!empty($_SESSION['id'])) {
                             </div>
                             <div class="form-group">
                                 <label for="pesan">Isi Pesan</label>
-                                <textarea id="pesan" name="pesan" placeholder="Tulis pesan Anda" rows="4"></textarea>
+                                <textarea id="pesan" name="pesan" placeholder="Tulis pesan Anda" rows="4" required></textarea>
                             </div>
-                            <button type="submit" class="btn">Kirim Masukan</button>
+                            <button type="submit" class="btn" name="masukan">Kirim Masukan</button>
                         </form>
                     </div>
                     <!-- Informasi Kontak -->

@@ -3,8 +3,8 @@ session_start();
 if (isset($_POST["username"])) {
     include '../db.php';
 
-    $username = $_POST['username'];
-    $password = $_POST["password"];
+    $username = htmlspecialchars($_POST['username']);
+    $password = htmlspecialchars(md5($_POST["password"]));
 
     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($conn, $query);
