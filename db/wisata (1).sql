@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 08, 2024 at 06:47 PM
+-- Generation Time: Dec 11, 2024 at 04:03 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.13
 
@@ -40,8 +40,36 @@ CREATE TABLE `detail_tiket` (
 --
 
 INSERT INTO `detail_tiket` (`id`, `transaksi_id`, `nama_pelanggan`, `telp`, `pembayaran_id`) VALUES
-(1, 16, 'wahyudi', '9999', 1),
-(2, 16, 'rafli', '8888', 1);
+(11, 20, 'wahyudi', '9999', 1),
+(12, 20, 'wahyudi', '8888', 1),
+(13, 21, 'wahyudi', '1111', 1),
+(14, 21, 'wahyudi', '2222', 1),
+(15, 21, 'wahyudi', '3333', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kontak`
+--
+
+CREATE TABLE `kontak` (
+  `id` int NOT NULL,
+  `tanggal` date DEFAULT NULL,
+  `nama` varchar(255) NOT NULL,
+  `telp` int DEFAULT NULL,
+  `kategori` enum('pertanyaan','kritik','saran','') NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `pesan` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `kontak`
+--
+
+INSERT INTO `kontak` (`id`, `tanggal`, `nama`, `telp`, `kategori`, `email`, `pesan`) VALUES
+(1, '2024-12-10', 'fitrah', 8888, 'pertanyaan', 'alif.fitra1511@gmail.com', 'apa lagi yang kurang bang?'),
+(2, '2024-12-10', '', NULL, 'kritik', 'alif.fitra1511@gmail.com', 'coba null'),
+(3, '2024-12-11', '', NULL, 'kritik', 'alif.fitra1511@gmail.com', 'coba fitur tanggal');
 
 -- --------------------------------------------------------
 
@@ -86,8 +114,7 @@ CREATE TABLE `pembayaran` (
 --
 
 INSERT INTO `pembayaran` (`id`, `pembarayan`, `nopol_kendaraan`, `total_harga`, `pemesanan_id`) VALUES
-(4, 'dana', '0', 110000, 3),
-(5, 'bri', 'M 3793 TM, M 3639 TM', 1250000, 5);
+(6, 'bni', 'M 3793 TM, M 3639 TM', 750000, 21);
 
 -- --------------------------------------------------------
 
@@ -109,27 +136,8 @@ CREATE TABLE `pemesanan` (
 --
 
 INSERT INTO `pemesanan` (`id`, `jumlah_tiket`, `waktu_transaksi`, `tipe_tiket`, `pelanggan_id`, `status_pembayaran`) VALUES
-(3, 1, '2024-12-04', 'Normal', 6, 'Sukses'),
-(4, 5, '2024-12-04', 'Normal', 6, 'Pending'),
-(5, 5, '2024-12-04', 'VIP', 6, 'Sukses'),
-(6, 4, '2024-12-05', 'VVIP', 6, 'Pending'),
-(14, 2, '2024-01-10', 'VIP', 7, 'Sukses'),
-(15, 3, '2024-02-14', 'Normal', 6, 'Sukses'),
-(16, 2, '2024-12-09', 'VIP', 6, 'Pending');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `status pemesanan`
---
-
-CREATE TABLE `status pemesanan` (
-  `id` int NOT NULL,
-  `pelanggan_id` int NOT NULL,
-  `telp` int NOT NULL,
-  `tanggal_booking` date NOT NULL,
-  `tipe_tiket` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(20, 2, '2024-12-11', 'Normal', 6, 'Pending'),
+(21, 3, '2024-12-11', 'VIP', 6, 'Sukses');
 
 -- --------------------------------------------------------
 
@@ -149,9 +157,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `level`) VALUES
-(1, 'dicky', 'password', 2),
-(2, 'rafli', 'password', 2),
-(5, 'fitrah', 'password', 1);
+(1, 'dicky', '5f4dcc3b5aa765d61d8327deb882cf99', 2),
+(2, 'rafli', '5f4dcc3b5aa765d61d8327deb882cf99', 2),
+(5, 'fitrah', '5f4dcc3b5aa765d61d8327deb882cf99', 1);
 
 --
 -- Indexes for dumped tables
@@ -164,6 +172,12 @@ ALTER TABLE `detail_tiket`
   ADD PRIMARY KEY (`id`),
   ADD KEY `transaksi_id` (`transaksi_id`),
   ADD KEY `pembayaran_id` (`pembayaran_id`);
+
+--
+-- Indexes for table `kontak`
+--
+ALTER TABLE `kontak`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pelanggan`
@@ -187,12 +201,6 @@ ALTER TABLE `pemesanan`
   ADD KEY `pelanggan_id` (`pelanggan_id`);
 
 --
--- Indexes for table `status pemesanan`
---
-ALTER TABLE `status pemesanan`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -206,7 +214,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `detail_tiket`
 --
 ALTER TABLE `detail_tiket`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `kontak`
+--
+ALTER TABLE `kontak`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
@@ -218,19 +232,13 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `pembayaran`
 --
 ALTER TABLE `pembayaran`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `status pemesanan`
---
-ALTER TABLE `status pemesanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
