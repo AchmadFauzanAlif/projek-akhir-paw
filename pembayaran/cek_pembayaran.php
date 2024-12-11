@@ -66,7 +66,6 @@ $i = 1;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gili Labak</title>
-    <link href="style/style.css" rel="stylesheet">
     <link rel="icon" type="../image/png" href="../img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../style/style_cekPembayaran.css" rel="stylesheet">
@@ -76,8 +75,8 @@ $i = 1;
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
-                <img src="../img/logoGili.png" alt="Gili Labak Logo">
-                <a class="navbar-brand" href="index.php">Gili Labak</a>
+                <img src="img/logoGili.png" alt="Gili Labak Logo">
+                <a class="navbar-brand" href="../index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -175,6 +174,7 @@ $i = 1;
                     <?php $i++;
                     endforeach; ?>
                 </tbody>
+
             </table>
         </div>
         <div>
