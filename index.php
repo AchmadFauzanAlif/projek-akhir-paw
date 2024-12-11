@@ -57,9 +57,9 @@ if (!empty($_SESSION['id'])) {
                         <?php endif; ?>
 
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>
-
+                        
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
+                            <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>
                             <li class="nav-item"><a class="nav-link" href=" report/report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>

@@ -19,6 +19,7 @@ if ($_SESSION['level'] == '1') {
 if (!empty($_SESSION['id'])) {
     $id = $_SESSION['id'];
     $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
+    $pelangganId = $pelanggan["id"];
 }
 
 //  Mengambil data di pemesanan lalu ditambilkan ke tabel
@@ -47,7 +48,7 @@ $pemesanan = query("
 // Mengambil data di detail tiket
 // var_dump($pemesanan);
 $pemesanan[0]["id"];
-// die();
+
 
 $detailTiket = query("SELECT * FROM detail_tiket");
 // var_dump($detailTiket[0]);
@@ -75,7 +76,7 @@ $i = 1;
     <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
-                <img src="img/logoGili.png" alt="Gili Labak Logo">
+                <img src="../img/logoGili.png" alt="Gili Labak Logo">
                 <a class="navbar-brand" href="../index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,7 +86,7 @@ $i = 1;
                 <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
-                    <li class="nav-item"><a type="submit" class="nav-link" href="../tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                    <li class="nav-item"><a type="submit" class="nav-link" href="../tiket/tiket.php?id=<?= $pelangganId ?>">Tiket</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
                 </ul>
                 <ul class="navbar-nav ms-auto user-nav">
