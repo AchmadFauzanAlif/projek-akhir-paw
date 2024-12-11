@@ -5,7 +5,7 @@ if (!empty($_GET['pemesanan_id'])) {
     $id = (int) $_GET['pemesanan_id'];
 
     // Query data detail tiket berdasarkan ID pemesanan
-    $result = mysqli_query($conn, "SELECT nama_pelanggan, telp FROM detail_tiket WHERE transaksi_id = $id");
+    $result = mysqli_query($conn, "SELECT id, nama_pelanggan, telp FROM detail_tiket WHERE transaksi_id = $id");
     $data = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $data[] = $row;
