@@ -10,9 +10,9 @@ if (isset($_POST["login"])) {
     exit();
 }
 
-if (empty($_SESSION["level"])) {
+if (!empty($_SESSION["level"])) {
     if ($_SESSION["level"] == 2) {
-        header("Location: index.php");
+        header("Location: ../index.php");
         exit();
     }
 }
@@ -107,7 +107,7 @@ if (isset($_POST["mingguan"])) {
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="../about.php">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../contact.php">Kontak</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../Terima_Pesan.php">Pesan</a></li>
                     <li class="nav-item"><a class="nav-link" href="../report.php">Report</a></li>
                 </ul>
                 <?php if (empty($_SESSION["user"])) : ?>

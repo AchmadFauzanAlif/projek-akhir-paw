@@ -54,9 +54,9 @@ if (!empty($_SESSION['id'])) {
 
                         <?php if ($_SESSION["level"] == "2") : ?>
                             <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         <?php endif; ?>
 
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
                             <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>

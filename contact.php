@@ -10,7 +10,9 @@ if (!empty($_SESSION['id'])) {
     
 }
 
+
 if(isset($_POST["masukan"])) {
+    $tanggal = date('Y-m-d');
     $nama = $_POST["nama"];
     $telp = $_POST["telepon"];
     $kategori = $_POST["kategori"];
@@ -25,7 +27,7 @@ if(isset($_POST["masukan"])) {
         $telp = NULL;
     }
 
-    $tambahPesan = "INSERT INTO `kontak`(`nama`, `telp`, `kategori`, `email`, `pesan`) VALUES ('$nama', " . ($telp === NULL ? "NULL" : "'$telp'") . ", '$kategori', '$email', '$pesan');";
+    $tambahPesan = "INSERT INTO `kontak`(`tanggal`, `nama`, `telp`, `kategori`, `email`, `pesan`) VALUES ('$tanggal', '$nama', " . ($telp === NULL ? "NULL" : "'$telp'") . ", '$kategori', '$email', '$pesan');";
 
 
     if (mysqli_query($conn, $tambahPesan)) {
@@ -80,9 +82,9 @@ if(isset($_POST["masukan"])) {
 
                         <?php if ($_SESSION["level"] == "2") : ?>
                             <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         <?php endif; ?>
 
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         
                         <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
                             <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>

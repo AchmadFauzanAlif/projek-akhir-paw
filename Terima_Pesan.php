@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "db.php";
+include "function.php";
 
 if (isset($_POST["login"])) {
     if (empty($_SESSION["user"])) {
@@ -7,6 +9,17 @@ if (isset($_POST["login"])) {
     }
     exit();
 }
+
+if (!empty($_SESSION["level"])) {
+    if ($_SESSION["level"] == 2) {
+        header("Location: index.php");
+        exit();
+    }
+}
+
+$kontak = query("SELECT * FROM kontak");
+$i = 1;
+
 
 ?>
 
@@ -33,30 +46,14 @@ if (isset($_POST["login"])) {
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <?php if (empty($_SESSION["user"])) : ?>
-                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
-                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                    </ul>
-                <?php elseif (!empty($_SESSION["user"])) : ?>
-                    <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
-                        <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
-                        <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>
-                        <?php if (!isset($_SESSION["level"]) == "1") : ?>
-                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
-                        <?php endif; ?>
-                    </ul>
-                <?php endif; ?>
-                <?php if (empty($_SESSION["user"])) : ?>
-                    <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
+                <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="report/report.php">Report</a></li>
+                </ul>
 
-                <?php elseif (!empty($_SESSION["user"])) : ?>
-                    <ul class="navbar-nav ms-auto user-nav">
+                <ul class="navbar-nav ms-auto user-nav">
                         <li class="nav-item dropdown">
                             <button
                                 class="btn btn-dark dropdown-toggle user-dropdown-btn"
@@ -66,7 +63,7 @@ if (isset($_POST["login"])) {
                                     src="img/profil.png"
                                     alt="User Icon"
                                     class="user-icon">
-                                <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                                <span class="user-greeting">Halo, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
@@ -80,7 +77,7 @@ if (isset($_POST["login"])) {
                             </ul>
                         </li>
                     </ul>
-                <?php endif; ?>
+
             </div>
         </div>
     </nav>
@@ -102,19 +99,21 @@ if (isset($_POST["login"])) {
                             <th>Kategori Pertanyaan</th>
                             <th>Isi Pesan</th>
                         </tr>
+                    <?php foreach($kontak as $rows) : ?>
                         <tr>
-                            <td>13/12/2024</td>
-                            <td>Dicky Prasetyo</td>
-                            <td>0895564352</td>
-                            <td>Dicky123@gmail.com</td>
-                            <td>Saran</td>
-                            <td>saran pengelolan parkirnya diperbanyaak agar dapat menampung banyak kendaraan tanpa harus menunggu</td>
+                            <td><?= $rows["tanggal"] ?></td>
+                            <td><?= $rows["nama"] ?></td>
+                            <td><?= $rows["telp"] ?></td>
+                            <td><?= $rows["kategori"] ?></td>
+                            <td><?= $rows["email"] ?></td>
+                            <td><?= $rows["pesan"] ?></td>
                         </tr>
+                    <?php $i++; endforeach; ?>
                     </table>
                 </div>
             </div>
         </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
