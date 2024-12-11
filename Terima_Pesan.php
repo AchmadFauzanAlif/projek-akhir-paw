@@ -19,7 +19,7 @@ if (isset($_POST["login"])) {
     <title>Gili Labak</title>
     <link rel="icon" type="image/png" href="img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/style_report.css" rel="stylesheet">
+    <link href="style/style_terima_pesan.css" rel="stylesheet">
 </head>
 
 <body>
@@ -89,78 +89,31 @@ if (isset($_POST["login"])) {
     <div class="hero-section">
         <div class="section-1">
             <div class="section-1A">
-                <a class="section-a" href="./report/report_harian.php">Harian</a>
-                <a class="section-a" href="./report/report_bulanan.php">Bulanan</a>
-                <a class="section-a" href="./report/report_tahunan.php">Tahunan</a>
-                <a class="section-a" href="./report/report_keuangan.php">Laporan Keuangan</a>
+                <a class="section-a" href="">Bulanan</a>
+                <a class="section-a" href="">Tahunan</a>
                 <hr>
                 <div class="table-container">
                     <table class="data-table">
                         <tr>
-                            <th>Hari/Tanggal</th>
-                            <th>Total Pengunjung</th>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>No.Telphone</th>
+                            <th>Email</th>
+                            <th>Kategori Pertanyaan</th>
+                            <th>Isi Pesan</th>
                         </tr>
                         <tr>
-                            <td>Senin</td>
-                            <td>50</td>
+                            <td>13/12/2024</td>
+                            <td>Dicky Prasetyo</td>
+                            <td>0895564352</td>
+                            <td>Dicky123@gmail.com</td>
+                            <td>Saran</td>
+                            <td>saran pengelolan parkirnya diperbanyaak agar dapat menampung banyak kendaraan tanpa harus menunggu</td>
                         </tr>
                     </table>
                 </div>
             </div>
         </div>
-
-        <!-- Right Section -->
-        <div class="section-2">
-            <!-- Top Section -->
-            <div class="top-right-section">
-                <h3>Statistik Pengunjung</h3>
-
-                <canvas id="chartPengunjung"></canvas>
-            </div>
-            <!-- Bottom Section -->
-            <div class="bottom-right-section">
-                <h3>Pengumuman</h3>
-                <p>Tidak ada pengumuman baru saat ini. Tetaplah ikuti update terbaru dari kami!</p>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Chart 1: Visitor Statistics
-        const ctx1 = document.getElementById('chartPengunjung').getContext('2d');
-        new Chart(ctx1, {
-            type: 'doughnut',
-            data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-                datasets: [{
-                    data: [10, 15, 20, 25, 30, 35, 40],
-                    backgroundColor: ['#4caf50', '#2196f3', '#ffeb3b', '#f44336', '#9c27b0', '#ff9800', '#00bcd4'],
-                }]
-            }
-        });
-
-        // Chart 2: Weekly Visitors
-        const ctx2 = document.getElementById('weekChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
-                datasets: [{
-                    label: 'Pengunjung',
-                    data: [10, 15, 20, 25, 30, 35, 40],
-                    backgroundColor: '#1e90ff'
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
 
 </body>
 
