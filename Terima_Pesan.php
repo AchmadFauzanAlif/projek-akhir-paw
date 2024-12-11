@@ -1,19 +1,12 @@
 <?php
-include "function.php";
 session_start();
 
-if (!empty($_SESSION['id'])) {
-    
-    // mengambil data pada tabel pelanggan
-    $id = $_SESSION['id'];
-    $pelanggan = query("SELECT * FROM users WHERE id = $id")[0];
-
-    // mengambil level user 
-    $_SESSION['level'] = $pelanggan['level'];
-
+if (isset($_POST["login"])) {
+    if (empty($_SESSION["user"])) {
+        header("Location: user/login.php");
+    }
+    exit();
 }
-
-
 
 ?>
 
@@ -26,11 +19,11 @@ if (!empty($_SESSION['id'])) {
     <title>Gili Labak</title>
     <link rel="icon" type="image/png" href="img/logoGili.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/style.css" rel="stylesheet">
+    <link href="style/style_terima_pesan.css" rel="stylesheet">
 </head>
 
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
                 <img src="img/logoGili.png" alt="Gili Labak Logo">
@@ -44,30 +37,24 @@ if (!empty($_SESSION['id'])) {
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-                        <li class="nav-item"><a class="nav-link" href="user/login.php">Tiket</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                     </ul>
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav position-absolute top-50 start-50 translate-middle ">
                         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="tiket/tiket.php">Tiket</a></li>
                         <li class="nav-item"><a class="nav-link" href="about.php">Tentang</a></li>
-
-                        <?php if ($_SESSION["level"] == "2") : ?>
-                            <li class="nav-item"><a type="submit" class="nav-link" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>">Tiket</a></li>
-                        <?php endif; ?>
-
                         <li class="nav-item"><a class="nav-link" href="contact.php">Kontak</a></li>
                         <li class="nav-item"><a class="nav-link" href="Terima_Pesan.php">Pesan</a></li>
-
-                        <?php if (isset($_SESSION["level"]) && $_SESSION["level"] === "1") : ?>
-                            <li class="nav-item"><a class="nav-link" href=" report/report.php">Report</a></li>
+                        <?php if (!isset($_SESSION["level"]) == "1") : ?>
+                            <li class="nav-item"><a class="nav-link" href="report.php">Report</a></li>
                         <?php endif; ?>
                     </ul>
-                    
                 <?php endif; ?>
-
                 <?php if (empty($_SESSION["user"])) : ?>
                     <a href="user/login.php" class="btn btn-outline-light ms-auto">Login</a>
+
                 <?php elseif (!empty($_SESSION["user"])) : ?>
                     <ul class="navbar-nav ms-auto user-nav">
                         <li class="nav-item dropdown">
@@ -79,7 +66,7 @@ if (!empty($_SESSION['id'])) {
                                     src="img/profil.png"
                                     alt="User Icon"
                                     class="user-icon">
-                                <span class="user-greeting">Halo, <?= htmlspecialchars($_SESSION["user"]) ?></span>
+                                <span class="user-greeting">Hello, <?= htmlspecialchars($_SESSION["user"]) ?></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
@@ -98,29 +85,36 @@ if (!empty($_SESSION['id'])) {
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <div class="hero-section">
-        <div class="container">
-            <h3>Pulau Gili Labak</h3>
-            <h1>Nikmati Salah Satu Keindahan di <br>Pulau Madura yang Menenangkan Jiwa</h1>
-
-            <?php if (!empty($_SESSION["user"])) : ?>
-                <?php if($_SESSION["level"] == 2) : ?>
-                <form action="" method="post">
-                    <a type="submit" href="tiket/tiket.php?id=<?= $pelanggan["id"] ?>" class="btn btn-light mt-4">Pesan Tiket</a>
-                    <a type="submit" href="pembayaran/cek_pembayaran.php" class="btn btn-light mt-4">Cek Pembayaran</a>
-                </form>
-                <?php elseif($_SESSION["level"] == 1) : ?>
-                    <a type="submit" href="report/report.php"" class="btn btn-light mt-4">Report</a>
-                <?php endif; ?>
-            <?php elseif (empty($_SESSION["user"])) : ?>
-                <form action="" method="post">
-                    <a type="submit" name="pesan-tiket" href="user/login.php" class="btn btn-light mt-4">Pesan Tiket</a>
-                </form>
-            <?php endif; ?>
-
+        <div class="section-1">
+            <div class="section-1A">
+                <a class="section-a" href="">Bulanan</a>
+                <a class="section-a" href="">Tahunan</a>
+                <hr>
+                <div class="table-container">
+                    <table class="data-table">
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>No.Telphone</th>
+                            <th>Email</th>
+                            <th>Kategori Pertanyaan</th>
+                            <th>Isi Pesan</th>
+                        </tr>
+                        <tr>
+                            <td>13/12/2024</td>
+                            <td>Dicky Prasetyo</td>
+                            <td>0895564352</td>
+                            <td>Dicky123@gmail.com</td>
+                            <td>Saran</td>
+                            <td>saran pengelolan parkirnya diperbanyaak agar dapat menampung banyak kendaraan tanpa harus menunggu</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 
 </html>

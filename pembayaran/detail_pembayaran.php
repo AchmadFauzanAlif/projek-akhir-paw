@@ -84,11 +84,11 @@ if (isset($_POST['bayar'])) {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
+<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <div class="container">
             <div class="logo">
-                <img src="../img/logoGili.png" alt="Gili Labak Logo">
-                <a class="navbar-brand" href="index.php">Gili Labak</a>
+                <img src="img/logoGili.png" alt="Gili Labak Logo">
+                <a class="navbar-brand" href="../index.php">Gili Labak</a>
             </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
