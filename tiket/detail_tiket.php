@@ -30,7 +30,7 @@ if (isset($_POST["detail"])) {
     }
 
     // Redirect atau tampilkan pesan sukses
-    header("Location: ../pembayaran/ cek_pembayaran.php");
+    header("Location: ../pembayaran/cek_pembayaran.php");
     exit();
 }
 
